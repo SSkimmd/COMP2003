@@ -1,16 +1,10 @@
+import aiohttp_cors
 import aiohttp
-from aiohttp import web
-import socketio
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import db
-from threading import Thread
 import asyncio
+import socketio
 
-cred = credentials.Certificate("credentials.json")
-firebase_admin.initialize_app(cred, {
-    "databaseURL": "https://iotdb-3f12d-default-rtdb.europe-west1.firebasedatabase.app"
-})
+from aiohttp import web
+from threading import Thread
 
 #create user object with sid and username/other stuff
 #when logging in add to list of active users
@@ -32,14 +26,29 @@ class User:
 
 class SIOThread:
     def __init__(self):
-        self.sio = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins='*')
+        self.sio = socketio.AsyncServer(async_mode='aiohttp', cors_allowed_origins="*")
         
         self.users = []
         self.SIOFunctions()
 
         self.app = web.Application()
         self.sio.attach(self.app)
-        web.run_app(self.app, host="192.168.0.34", port=5000, print=None, access_log=None)
+
+
+        self.cors = aiohttp_cors.setup(self.app, defaults={
+            "*": aiohttp_cors.ResourceOptions(
+                    allow_credentials=True,
+                    expose_headers="*",
+                    allow_headers="*",
+                    allow_methods="*",   
+                )
+        })
+
+        self.resource = self.cors.add(self.app.router.add_resource("/login"))
+        self.cors.add(self.resource.add_route("POST", self.Login))
+
+        #192.168.0.19
+        web.run_app(self.app, host="192.168.0.19", port=5000, print=None, access_log=None)
 
     def SIOFunctions(self):
         @self.sio.on('login')
@@ -55,12 +64,30 @@ class SIOThread:
 
         @self.sio.on('text')
         async def text(sid, data):
-            print(data)
+            pass
     
-    async def GetUser(self, sid):
+    async def GetSID(self, username):
         for user in self.users:
-            if user.sid == sid:
-                return user
+            if username == user.username:
+                return user.sid
+            
+    async def Login(self, data):  
+        user = await data.json()   
+
+        id = await self.GetSID(user["username"])
+
+        data = {
+            "calendar":
+                [
+                    {"name": user["data"]}
+                ]
+        }
+
+        await self.sio.emit("event", data, room=id)
+
+        return web.json_response(data={
+            "ID": id
+        })
 
 
 class DBThread(Thread):
@@ -76,54 +103,6 @@ class DBThread(Thread):
         
     def HandleLogin(self):
         username = self.user.username
-        fb = db.reference('')
-
-        stream = None
-        if(fb.child(username).get() is not None):
-            stream = fb.child(username).listen(self.OnDatabaseUpdate)
-        else:
-            fb.child(username).set({
-                "calendar":[
-                    {"name": "test1"},
-                    {"name": "test2"}
-                ]
-            })
-            stream = asyncio.get_event_loop().create_task(fb.child(username).listen(self.OnDatabaseUpdate))
-
-    def OnDatabaseUpdate(self, message):
-        async def send():
-            await self.sio.emit(message.data, '', room=self.sid)
-        asyncio.run_coroutine_threadsafe(send(), self.server_loop).result()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#@sio.event
-#def connect(sid, environ):
-#    print('connect ', sid)
-#
-#@sio.event
-#def text(sid, data):
-#    print(data)
-#
-#@sio.event
-#def login(sid, username, password):
-#    print()
-#
-#@sio.event
-#def disconnect(sid):
-#    print('disconnect ', sid)
 
 if __name__ == '__main__':
     SIOThread()

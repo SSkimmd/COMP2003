@@ -117,7 +117,7 @@ void setup() {
   String ip = WiFi.localIP().toString();
 
   // server address, port and URL
-  socketIO.begin("192.168.0.34", 5000, "/socket.io/?EIO=4");
+  socketIO.begin("192.168.0.19", 5000, "/socket.io/?EIO=4");
 
   // event handler
   socketIO.onEvent(socketIOEvent);
