@@ -122,7 +122,7 @@ void socketIOEvent(socketIOmessageType_t type, uint8_t * payload, size_t length)
 }
 
 void setup() {
-  WiFiMulti.addAP("", "");
+  WiFiMulti.addAP("shagpad", "f3mqhmpDadkp");
 
     //WiFi.disconnect();
   while(WiFiMulti.run() != WL_CONNECTED) {

@@ -4,13 +4,13 @@
 
   const endpoint = "http://192.168.0.19:5000/login";
 
-  let message = '';
-  let returnData = 'Offline';
+  let username = '';
+  let userID = 'Offline';
+  let loggedIn = false;
 
-  async function Send() {
+  async function Login() {
     const user = {
-      "username": "testusername",
-      "data": message
+      "username": username
     };
 
     const userdata = JSON.stringify(user)
@@ -22,10 +22,12 @@
     })
 
     const json = await response.json()
-    returnData = json["ID"]  
+    userID = json["ID"]  
+
+    loggedIn = (userID !== "Offline")
   }
 </script>
 
-<input bind:value={message}/>
-<button on:click={Send}>Send</button>
-<button>{returnData}</button>
+<input placeholder="Enter Username..." bind:value={username}/>
+<button on:click={Login}>Login</button>
+<button>{userID}</button>

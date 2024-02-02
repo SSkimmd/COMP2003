@@ -69,6 +69,11 @@ class SIOThread:
             if username == user.username:
                 return user.sid
             
+    async def GetUser(self, sid):
+         for user in self.users:
+            if sid == user.sid:
+                return user     
+            
     async def Login(self, data):  
         user = await data.json()   
 
@@ -77,7 +82,6 @@ class SIOThread:
         return web.json_response(data={
             "ID": id
         })
-
 
 class DBThread(Thread):
     def __init__(self, sio, user, server_loop):
