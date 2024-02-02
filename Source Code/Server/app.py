@@ -2,17 +2,11 @@ import aiohttp_cors
 import aiohttp
 import asyncio
 import socketio
-<<<<<<< HEAD
 import python_weather
 
 from aiohttp import web
 from threading import Thread
 from datetime import date
-=======
-
-from aiohttp import web
-from threading import Thread
->>>>>>> 678bf9aa5454177a0c16446426017bbb10d8e0e5
 
 #create user object with sid and username/other stuff
 #when logging in add to list of active users
@@ -68,15 +62,7 @@ class SIOThread:
             user.db = db
             self.users.append(user)
 
-<<<<<<< HEAD
             print(f'User Logged With Username: {username["username"]} And Password: {password["password"]}')
-=======
-            print("User Connected With Username: " + user.username)
-
-        @self.sio.on('text')
-        async def text(sid, data):
-            pass
->>>>>>> 678bf9aa5454177a0c16446426017bbb10d8e0e5
     
     async def GetSID(self, username):
         for user in self.users:
@@ -88,18 +74,6 @@ class SIOThread:
 
         id = await self.GetSID(user["username"])
 
-<<<<<<< HEAD
-=======
-        data = {
-            "calendar":
-                [
-                    {"name": user["data"]}
-                ]
-        }
-
-        await self.sio.emit("event", data, room=id)
-
->>>>>>> 678bf9aa5454177a0c16446426017bbb10d8e0e5
         return web.json_response(data={
             "ID": id
         })
@@ -125,7 +99,6 @@ class DBThread(Thread):
             "weather": WEATHER
         }, room=self.sid)
         
-<<<<<<< HEAD
     async def GetDate(self):
         newDate = date.today().strftime('%B %d, %Y')
         return newDate
@@ -135,10 +108,6 @@ class DBThread(Thread):
             weather = await client.get('en')
             return f'{weather.current.temperature} celcius, {weather.current.description}'
 
-=======
-    def HandleLogin(self):
-        username = self.user.username
->>>>>>> 678bf9aa5454177a0c16446426017bbb10d8e0e5
 
 if __name__ == '__main__':
     SIOThread()
