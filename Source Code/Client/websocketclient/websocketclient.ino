@@ -19,6 +19,7 @@
 #include <WebSocketsClient.h>
 #include <SocketIOclient.h>
 #include <ArduinoJson.h>
+#include "WebClient.h"
 
 WiFiMulti WiFiMulti;
 SocketIOclient socketIO;
@@ -82,6 +83,19 @@ void DisplayCalendar(DynamicJsonDocument data) {
   EPD_7IN5_V2_Display(BlackImage);
 }
 
+void OnUpdateEvent(DynamicJsonDocument data) {
+  String strDate = data[1]["date"].as<String>();
+  const char* date = strDate.c_str();
+
+  String strWeather = data[1]["weather"].as<String>();
+  const char* weather = strWeather.c_str();
+
+
+  Clear();
+  Paint_DrawString_EN(10, 10, date, &Font20, WHITE, BLACK); 
+  Paint_DrawString_EN(10, 30, weather, &Font20, WHITE, BLACK);
+  EPD_7IN5_V2_Display(BlackImage);
+}
 
 void socketIOEvent(socketIOmessageType_t type, uint8_t * payload, size_t length) {
     switch(type) {
@@ -94,11 +108,12 @@ void socketIOEvent(socketIOmessageType_t type, uint8_t * payload, size_t length)
           break;
         case sIOtype_EVENT: {
           DynamicJsonDocument data = GetJson(payload, length);
-
           String title = data[0];
-          SendJson("text", title);
 
-          DisplayCalendar(data);
+
+          if(title == "update") {
+            OnUpdateEvent(data);
+          }
         }
           break;
         case sIOtype_ERROR:
@@ -107,7 +122,7 @@ void socketIOEvent(socketIOmessageType_t type, uint8_t * payload, size_t length)
 }
 
 void setup() {
-  WiFiMulti.addAP("", "");
+  WiFiMulti.addAP("shagpad", "f3mqhmpDadkp");
 
     //WiFi.disconnect();
   while(WiFiMulti.run() != WL_CONNECTED) {
@@ -117,7 +132,7 @@ void setup() {
   String ip = WiFi.localIP().toString();
 
   // server address, port and URL
-  socketIO.begin("192.168.0.34", 5000, "/socket.io/?EIO=4");
+  socketIO.begin("192.168.0.19", 5000, "/socket.io/?EIO=4");
 
   // event handler
   socketIO.onEvent(socketIOEvent);
