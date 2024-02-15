@@ -1,0 +1,90 @@
+<!-- Login.svelte -->
+<script>
+  import { onMount } from "svelte";
+
+  let message = '';
+  let returnData = 'Offline';
+
+  async function Send() {
+    const endpoint = "http://192.168.0.19:5000/login";
+
+    const user = {
+      "username": "testusername",
+      "data": message
+    };
+
+    const userdata = JSON.stringify(user);
+
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    });
+
+    const json = await response.json();
+    returnData = json["ID"];
+  }
+</script>
+
+<style>
+  #sidebar {
+    width: 200px;
+    height: 100%;
+    background-color: #333;
+    position: fixed;
+    left: 0;
+    top: 0;
+    color: #fff;
+    padding: 20px;
+  }
+
+  #sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  #sidebar ul li {
+    margin-bottom: 10px;
+  }
+
+  .content {
+    margin-left: 220px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns with equal width */
+    grid-template-rows: auto auto; /* Auto sizing for rows */
+    grid-gap: 20px; /* gap between grid items */
+  }
+
+  .box {
+    background-color: #f0f0f0;
+    padding: 20px;
+  }
+
+  #plus-box {
+    font-size: 100px;
+    text-align: center;
+    line-height: 200px;
+  }
+</style>
+
+<div id="sidebar">
+  <ul>
+    <li>Data</li>
+    <li>Weather</li>
+  </ul>
+</div>
+<div class="content">
+  <div class="box" id="date-time-box">
+    <h2>Data/Time</h2>
+  </div>
+  <div class="box" id="weather-box">
+    <h2>Weather</h2>
+  </div>
+  <div class="box" id="device-info-box">
+    <h2>Connected information about device</h2>
+  </div>
+  <div class="box" id="plus-box">
+    <span>+</span>
+  </div>
+</div>
