@@ -1,35 +1,14 @@
 <script>
+// @ts-nocheck
+
+
   import { json } from "@sveltejs/kit";
   import { onMount } from "svelte";
   import Navigation from "../../components/navigation.svelte";
   import RiDeviceFill from '~icons/ri/device-fill';
   import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
   import { goto } from '$app/navigation';
-
-
-  const endpoint = "http://192.168.0.19:5000/login";
-
-  let userID = 'Offline';
-  let loggedIn = false;
-
-  onMount(async () => {
-    const user = {
-      "username": 'testusername'
-    };
-
-    const userdata = JSON.stringify(user)
-
-    const response = await fetch(endpoint, {
-        method: 'POST',
-        mode: 'cors',
-        body: userdata
-    })
-
-    const json = await response.json()
-    userID = json["ID"]  
-
-    loggedIn = (userID !== "Offline")
-  });
+  import { GetDevices } from "$lib/device"
 
   function backPressed() {
     goto('/home')
@@ -52,7 +31,13 @@
 
   <div id="device-content">
       <p style='font-size: x-large; text-align: center;'>Device Information</p>
-      <p>Device ID {userID}</p>
+      {#await GetDevices()}
+        <p>Loading...</p>
+      {:then devices}
+          {#each devices as device}
+            <p>{device.name}</p>
+          {/each}
+      {/await}
   </div>
 </div>
 

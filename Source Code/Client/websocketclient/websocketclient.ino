@@ -41,7 +41,7 @@ void SendJson(String event, String message) {
   socketIO.sendEVENT(output);
 }
 
-void SendLogin(String username, String password) {
+void SendLogin(String username, String password, String name) {
   DynamicJsonDocument doc(1024);
   JsonArray array = doc.to<JsonArray>();
   array.add("login");
@@ -51,6 +51,9 @@ void SendLogin(String username, String password) {
 
   JsonObject param2 = array.createNestedObject();
   param2["password"] = password;
+
+  JsonObject DeviceName = array.createNestedObject();
+  DeviceName["name"] = name;
 
   String output;
   serializeJson(doc, output);
@@ -66,21 +69,6 @@ DynamicJsonDocument GetJson(uint8_t * payload, size_t length) {
   DynamicJsonDocument doc(1024);
   DeserializationError error = deserializeJson(doc, payload, length);
   return doc;
-}
-
-void DisplayCalendar(DynamicJsonDocument data) {
-  Clear();
-  JsonArray items = data[1]["calendar"].as<JsonArray>();
-
-  int i = 0;
-  for(JsonVariant v : items) {
-    String str = v["name"].as<String>();
-    const char* chr = str.c_str();
-    Paint_DrawString_EN(10, i, chr, &Font20, WHITE, BLACK); 
-    i += 30;
-  }
-
-  EPD_7IN5_V2_Display(BlackImage);
 }
 
 void OnUpdateEvent(DynamicJsonDocument data) {
@@ -103,7 +91,7 @@ void socketIOEvent(socketIOmessageType_t type, uint8_t * payload, size_t length)
           break;
         case sIOtype_CONNECT: {
           socketIO.send(sIOtype_CONNECT, "/");
-          SendLogin("testusername", "testpassword");
+          SendLogin("testusername", "testpassword", "Toms Device");
         }
           break;
         case sIOtype_EVENT: {

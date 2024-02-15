@@ -5,9 +5,22 @@
     import FluentWeatherFog48Filled from '~icons/fluent/weather-fog-48-filled';
     import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
     import { goto } from '$app/navigation';
+    import { GetLocation, UpdateLocation } from "$lib/weather"
   
+    var currentLocation = ''
+
+    onMount(async () => {
+      await GetLocation().then(location => {
+        currentLocation = location
+      })
+    })
+
     function backPressed() {
       goto('/home')
+    }
+
+    async function updateLocation() {
+      await UpdateLocation(currentLocation)
     }
   </script>
 
@@ -27,6 +40,9 @@
     <p style='margin-left: 120px; margin-top: 25px;'>Weather Settings</p>
   
     <div id="device-content">
+      <p style='font-size: large;'>Current Location</p>
+      <input placeholder={currentLocation} bind:value={currentLocation}/>
+      <button on:click={updateLocation}>Update</button>
     </div>
   </div>
   
