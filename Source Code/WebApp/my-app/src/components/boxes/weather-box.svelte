@@ -12,12 +12,18 @@
     <FluentWeatherFog48Filled style='position: absolute; margin-top: 20px; margin-left: 25px; width: 30px; height: 30px;'/>
     <p style='margin-left: 80px; margin-top: 25px;'>Weather</p>
     <p id="location">Plymouth</p>
-    <p id="temperature">10°c</p>
-    <p id="weather">Windy</p>
+    <p id="temperature">8°c</p>
+    <p id="weather">Windy and Raining</p>
+    <p id="moon">Full Moon</p>
 </div>
 
 <style>
     #weather {
+        margin-left: 30px;
+        font-size: medium;       
+    }
+    
+    #moon {
         margin-left: 30px;
         font-size: medium;       
     }
