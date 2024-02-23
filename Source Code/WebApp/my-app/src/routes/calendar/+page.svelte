@@ -36,8 +36,10 @@ fetchICal();
       } else if (line.startsWith('END:VEVENT')) {
         events.push(event);
       }
-      console.log(event)
+      //console.log(event);
     }
+    //console.log(events);
+    events = events;
   }
 
   function backPressed() {
