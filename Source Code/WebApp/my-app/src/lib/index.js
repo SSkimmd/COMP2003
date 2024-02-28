@@ -12,12 +12,21 @@ token.subscribe(data => {
 
 export async function Login() {
     const storedToken = localStorage.getItem('token')
+    var user;
 
-    const user = {
-        "username": "testusername",
-        "token": storedToken
-    };
-  
+    if(storedToken) {
+        user = {
+            "username": "testusername",
+            "password": "testpassword",
+            "token": storedToken
+        };
+    } else {
+        user = {
+            "username": "testusername",
+            "password": "testpassword"
+        };
+    }
+
     const endpoint = "http://192.168.0.19:5000/login";
     const userdata = JSON.stringify(user)
   
@@ -27,7 +36,13 @@ export async function Login() {
         body: userdata
     })
 
-    return response.ok
+    if(!storedToken) {
+        const json = await response.json();
+        const newToken = json["token"]  
+        token.set(newToken)
+    }
+
+    return response.ok;
 }
 
 export async function Register() {
@@ -44,11 +59,6 @@ export async function Register() {
         mode: 'cors',
         body: userdata
     })
-  
-    const json = await response.json()
-    const newToken = json["token"]  
 
-    token.set(newToken)
-
-    return token
+    return response.ok;
 }

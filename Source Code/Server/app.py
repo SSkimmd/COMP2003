@@ -4,6 +4,7 @@ import aiohttp
 import asyncio
 import socketio
 import python_weather
+import sqlite3
 
 from aiohttp import web
 from threading import Thread
@@ -22,14 +23,15 @@ from datetime import date
 
 
 class User:
-    def __init__(self, username):
+    def __init__(self, username: str = None, location: str = None):
         self.username = username
+        self.location = location
 
         self.db = None
         self.token = None
 
         self.devices = []
-        self.location = None
+        self.calendar = None
 
 class Device(dict):
     def __init__(self, sid, name):
@@ -64,6 +66,8 @@ class SIOThread:
         self.cors.add(self.app.router.add_post('/user', self.WebGetUser))
         self.cors.add(self.app.router.add_patch('/user', self.WebUpdateUser))
 
+        self.cors.add(self.app.router.add_post('/weather', self.WebGetWeather))
+
         #192.168.0.19
         web.run_app(self.app, host="192.168.0.19", port=5000, print=None, access_log=None)
 
@@ -85,7 +89,6 @@ class SIOThread:
             user.devices.append(device)
 
             print(f'Device Added Named: {name["name"]}')
-            
 
     async def GetUser(self, username):
         for user in self.users:
@@ -98,6 +101,17 @@ class SIOThread:
             if user.token == token:
                 return user
         return None
+    
+    async def GetAuthenticatedUser(self, data):
+        if 'token' not in data:
+            return None
+    
+        token = data['token']
+        user = await self.GetByToken(token) 
+
+        if user is None:
+            return None
+        return user
     
     async def WebUpdateUser(self, data):
         response = await data.json()
@@ -118,18 +132,13 @@ class SIOThread:
     async def WebGetUser(self, data):
         response = await data.json()
 
-        if not response['token']:
+        if 'token' not in response:
             return web.Response(text="No Token In Body")
-    
         
-        token = response['token']
-        user = await self.GetByToken(token)
+        user = await self.GetAuthenticatedUser(response)
 
         if user is None:
             return web.Response(text="User Doesn't Exist")
-
-        if user.token != token:
-            return web.Response(text="Incorrect Token Re-Authenticate")
         
         return web.json_response(data={
             "devices": user.devices,
@@ -146,32 +155,80 @@ class SIOThread:
             return web.Response(text="Failed To Create Account")
         
         user = User(username)
-        user.token = 'thiswillberandomsoon'
         user.location = 'Plymouth'
 
+        database = sqlite3.connect("users.db")
+        cursor = database.cursor()
+        #add user to database
+        cursor.execute(f"INSERT INTO Users VALUES ('{username}', '{password}', '{user.location}')")
+
+        database.commit()
+        database.close()
+
+        return web.Response(text='Successfully Registered')
+       
+    async def WebLogin(self, data): 
+        response = await data.json()
+
+        if 'username' not in response or 'password' not in response:
+            return web.Response(text='Username Or Password Not In Body', status=400)
+        
+        database = sqlite3.connect("users.db")
+        cursor = database.cursor()
+
+        #get user
+        user = cursor.execute("SELECT * FROM Users WHERE username = ?", (response['username'],)).fetchone()
+
+        database.close()
+        #verify password hash at this point
+
+        if response['password'] != user[1]:
+            return web.Response(text='Password Or Username Is Incorrect')
+
+        user = User(username=user[0], location=user[2])
+        user.token = 'thiswillberandomsoon'
         self.users.append(user)
 
         return web.json_response(data={
             "token": user.token
         })
-            
-    async def WebLogin(self, data):  
+        #check for token
+        #if no token, get user based on username and password
+        #if token get user based on token
+        #add user to user list
+    
+    async def WebUpdateCalendar(self, data):
         response = await data.json() 
 
-        username = response['username']  
+        user = await self.GetAuthenticatedUser(response)
 
-        user = await self.GetUser(username)
-
-        if user == None:
-            return web.Response(text='User Does Not Exist', status=400)
+        if user is None:
+            return
         
-        if response['token']:
-            if user.token != response['token']:
-                return web.Response(text="Incorrect Token, Re-Authenticate")
+        if 'calendar' not in response:
+            return
+        
+        user.calendar = response['calendar']
+    
+    async def WebGetWeather(self, data):
+        response = await data.json()
 
-        return web.json_response(data={
-            "token": user.token
-        })
+        if 'token' not in response:
+            return web.Response("No Token In Body", status=400)
+
+        user = await self.GetAuthenticatedUser(response)
+
+        if user is None:
+            return web.Response(text="User Doesnt Exist", status=400)
+
+        async with python_weather.Client(unit=python_weather.METRIC) as client:
+            weather = await client.get(user.location)
+            return web.json_response(data={
+                "temperature": weather.current.temperature,
+                "kind": str(weather.current.kind),
+                "humidity": weather.current.humidity
+            })
+        
 
 class DBThread(Thread):
     def __init__(self, sio, user, sid, server_loop):
@@ -204,6 +261,9 @@ class DBThread(Thread):
         async with python_weather.Client(unit=python_weather.METRIC) as client:
             weather = await client.get(self.user.location)
             return f'{weather.current.temperature},  {weather.current.description}'
+        
+    async def GetCalendar(self):
+        pass
 
 
 if __name__ == '__main__':
