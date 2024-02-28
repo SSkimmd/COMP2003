@@ -11,7 +11,7 @@
 	},
 	"devDependencies": {
 		"@iconify/json": "^2.2.178",
-		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-auto": "^3.1.1",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"svelte": "^4.2.7",
@@ -20,5 +20,12 @@
 		"unplugin-icons": "^0.18.3",
 		"vite": "^5.0.3"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"googleapis": "^133.0.0",
+		"ical-parser": "^1.2.0",
+		"ical.js": "^1.5.0",
+		"node-ical": "^0.17.2",
+		"oauth2-client-js": "^0.0.15"
+	}
 }
