@@ -1,11 +1,17 @@
 <script>
+  // @ts-ignore
   import { onMount } from "svelte";
   import ClarityCalendarLine from '~icons/clarity/calendar-line';
   import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
   import { goto } from '$app/navigation';
   import { writable } from 'svelte/store';
 
+  
+  /**
+     * @type {{ start: Date; end: Date; summary: any; location: any; description: any; }[]}
+     */
   let events = [];
+  // @ts-ignore
   const upcomingEvents = writable([]);
 
   async function fetchICal() {
@@ -17,12 +23,16 @@
 
   fetchICal();
 
+  /**
+     * @param {string} data
+     */
   function parseICal(data) 
   {
     const lines = data.split('\n');
     let event = {};
     for (let line of lines) 
     {
+      // @ts-ignore
       if (line.startsWith('BEGIN:VEVENT')){event = {};} 
       else if (line.startsWith('DTSTART')) 
       {
@@ -33,6 +43,7 @@
         const day = datePart.substring(6, 8);
         const hours = timePart.substring(0, 2);
         const mins = timePart.substring(2, 4);
+        // @ts-ignore
         event.start = new Date(year, month - 1, day, hours, mins);
       } 
       else if (line.startsWith('DTEND')) 
@@ -44,6 +55,7 @@
         const day = datePart.substring(6, 8);
         const hours = timePart.substring(0, 2);
         const mins = timePart.substring(2, 4);
+        // @ts-ignore
         event.end = new Date(year, month - 1, day, hours, mins);
       } 
         else if (line.startsWith('SUMMARY')) {event.summary = line.substring(8);} 
@@ -51,6 +63,7 @@
         else if (line.startsWith('DESCRIPTION')) {event.description = line.substring(12);}
         else if (line.startsWith('END:VEVENT')) {events.push(event);}
     }
+    // @ts-ignore
     upcomingEvents.set(getNextEvents());
   }
 
@@ -59,6 +72,11 @@
   function getNextEvents() 
   {
     const currentTime = new Date();
+    
+    /**
+       * @type {{ start: Date; end: Date; summary: any; location: any; description: any; }[]}
+       */
+    // @ts-ignore
     const upcomingEvents = [];
 
     events.forEach(event => {
@@ -73,9 +91,13 @@
       }
     });
 
+    // @ts-ignore
     return upcomingEvents.sort((a, b) => a.start - b.start).slice(0, 5);
   }
 
+  /**
+     * @param {{ getHours: () => string; getMinutes: () => string; }} date
+     */
   function formatTime(date) {
     const hours = ('0' + date.getHours()).slice(-2);
     const minutes = ('0' + date.getMinutes()).slice(-2);
