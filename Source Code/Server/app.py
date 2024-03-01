@@ -69,8 +69,8 @@ class SIOThread:
         self.cors.add(self.app.router.add_post('/weather', self.WebGetWeather))
 
         #192.168.0.19
-        web.run_app(self.app, host="192.168.0.19", port=5000, print=None, access_log=None)
         print("Server Started")
+        web.run_app(self.app, host="192.168.0.20", port=5000, print=None, access_log=None)
 
     def SIOFunctions(self):
         @self.sio.on('login')
@@ -229,6 +229,7 @@ class SIOThread:
                 "kind": str(weather.current.kind),
                 "humidity": weather.current.humidity
             })
+        
         
 
 class DBThread(Thread):
