@@ -60,6 +60,7 @@
       } 
         else if (line.startsWith('SUMMARY')) {event.summary = line.substring(8);} 
         else if (line.startsWith('LOCATION')) {event.location = line.substring(9);}
+        if (event.location == null){event.location = ' Location Not Specified'}
         else if (line.startsWith('DESCRIPTION')) {event.description = line.substring(12);}
         else if (line.startsWith('END:VEVENT')) {events.push(event);}
     }
