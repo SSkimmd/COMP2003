@@ -70,6 +70,7 @@ class SIOThread:
 
         #192.168.0.19
         web.run_app(self.app, host="192.168.0.19", port=5000, print=None, access_log=None)
+        print("Server Started")
 
     def SIOFunctions(self):
         @self.sio.on('login')
