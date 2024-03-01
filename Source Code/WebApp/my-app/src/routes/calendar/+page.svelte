@@ -4,6 +4,7 @@
   import ClarityCalendarLine from '~icons/clarity/calendar-line';
   import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
   import { goto } from '$app/navigation';
+  import Navigation from "../../components/navigation.svelte";
   import { writable } from 'svelte/store';
 
   
@@ -105,6 +106,10 @@
     return `${hours}:${minutes}`;
   }
 </script>
+
+<div style='margin-top: 15vh;'>
+  <Navigation/>
+</div>
 
 <div style='margin-top: 15vh;'>
   <div id="device">
