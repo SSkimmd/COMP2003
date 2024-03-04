@@ -1,4 +1,4 @@
-#!C:\Users\jimmy\Desktop\COMP2003 Project\Source Code\Server\venv\Scripts\python.exe
+#!d:\dev\comp2003 debug\source code\server\venv\scripts\python.exe
 # -*- coding: utf-8 -*-
 # Copyright 2023 Google LLC
 #
@@ -47,6 +47,7 @@ class firestore_adminCallTransformer(cst.CSTTransformer):
     METHOD_TO_PARAMS: Dict[str, Tuple[str]] = {
         'create_database': ('parent', 'database', 'database_id', ),
         'create_index': ('parent', 'index', ),
+        'delete_database': ('name', 'etag', ),
         'delete_index': ('name', ),
         'export_documents': ('name', 'collection_ids', 'output_uri_prefix', 'namespace_ids', 'snapshot_time', ),
         'get_database': ('name', ),

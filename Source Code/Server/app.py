@@ -301,6 +301,7 @@ class SIOThread:
                 "humidity": weather.current.humidity
             })
         
+        
 
 class DBThread(Thread):
     def __init__(self, sio, user, sid, server_loop):
