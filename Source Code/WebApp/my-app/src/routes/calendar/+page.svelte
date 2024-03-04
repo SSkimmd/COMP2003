@@ -122,8 +122,7 @@
         {#each $upcomingEvents as event}
           <li>
             <div class="date-box">{event.start.getDate()} <br>
-              {(event.start.toLocaleString('default', { month: 'short' })).toUpperCase()}
-               
+              {(event.start.toLocaleString('default', { month: 'short' })).toUpperCase()}      
             </div>
             <div class="event-details">
               <strong>{event.summary}</strong><br>

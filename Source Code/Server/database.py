@@ -7,7 +7,7 @@ def init():
     connection = sqlite3.connect("users.db")
     cursor = connection.cursor()
 
-    cursor.execute("CREATE TABLE Users (username TEXT, password TEXT, location TEXT)")
+    cursor.execute("CREATE TABLE Users (username TEXT, password TEXT, location TEXT, token TEXT)")
 
     connection.commit()
     connection.close()
@@ -16,7 +16,7 @@ def init_users():
     connection = sqlite3.connect("users.db")
     cursor = connection.cursor()
 
-    cursor.execute("INSERT INTO Users VALUES ('testusername', 'testpassword', 'Plymouth')")
+    cursor.execute("INSERT INTO Users VALUES ('testusername', 'testpassword', 'Plymouth', '')")
 
     connection.commit()
     connection.close()

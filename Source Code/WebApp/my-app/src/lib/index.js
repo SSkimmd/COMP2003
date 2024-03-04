@@ -14,18 +14,10 @@ export async function Login() {
     const storedToken = localStorage.getItem('token')
     var user;
 
-    if(storedToken) {
-        user = {
-            "username": "testusername",
-            "password": "testpassword",
-            "token": storedToken
-        };
-    } else {
-        user = {
-            "username": "testusername",
-            "password": "testpassword"
-        };
-    }
+    user = {
+        "username": "testusername",
+        "password": "testpassword"
+    };
 
     const endpoint = "http://192.168.0.19:5000/login";
     const userdata = JSON.stringify(user)
