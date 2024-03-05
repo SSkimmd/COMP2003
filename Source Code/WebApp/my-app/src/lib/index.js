@@ -19,7 +19,7 @@ export async function Login() {
         "password": "testpassword"
     };
 
-    const endpoint = "http://192.168.0.20:5000/login";
+    const endpoint = "http://192.168.0.19:5000/login";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -43,7 +43,7 @@ export async function Register() {
         "password": "testpassword"
     };
   
-    const endpoint = "http://192.168.0.20:5000/register";
+    const endpoint = "http://192.168.0.19:5000/register";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {

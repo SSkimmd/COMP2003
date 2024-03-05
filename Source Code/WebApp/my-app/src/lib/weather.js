@@ -4,7 +4,7 @@ export async function GetLocation() {
         "token": "thiswillberandomsoon"
     };
   
-    const endpoint = "http://192.168.0.20:5000/user";
+    const endpoint = "http://192.168.0.19:5000/user";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -28,7 +28,7 @@ export async function UpdateLocation(newLocation) {
         "location": newLocation
     };
   
-    const endpoint = "http://192.168.0.20:5000/user";
+    const endpoint = "http://192.168.0.19:5000/user";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -45,7 +45,7 @@ export async function GetWeather() {
         "token": "thiswillberandomsoon"
     };
   
-    const endpoint = "http://192.168.0.20:5000/weather";
+    const endpoint = "http://192.168.0.19:5000/weather";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -56,5 +56,5 @@ export async function GetWeather() {
 
     const json = await response.json()
 
-    return json['kind'];
+    return json['moon_phase'];
 }

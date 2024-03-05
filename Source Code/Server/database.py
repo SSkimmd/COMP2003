@@ -1,6 +1,7 @@
 import sqlite3
 import sys
 import asyncio
+import python_weather
 
 
 def init():
@@ -33,6 +34,13 @@ async def test():
 
     connection.close()
 
+async def weatherTest():
+    async with python_weather.Client(unit=python_weather.METRIC) as client:
+        weather = await client.get('Plymouth')
+
+        for forecast in weather.forecasts:
+            print(forecast.astronomy.moon_phase)
+
 
 if __name__ == "__main__":
     if len(sys.argv) >= 2:
@@ -42,7 +50,10 @@ if __name__ == "__main__":
             init_users()
         elif sys.argv[1] == '-t':
             asyncio.run(test())
+        elif sys.argv[1] == '-tw':
+            asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+            asyncio.run(weatherTest())
         else:
-            print("Arguments Not Specified, -i init(), -u init_users(), -t test()")
+            print("Arguments Not Specified, -i init(), -u init_users(), -t test(), -tw weatherTest()")
     else:
-        print("Arguments Not Specified, -i init(), -u init_users(), -t test()")
+        print("Arguments Not Specified, -i init(), -u init_users(), -t test(), -tw weatherTest()")

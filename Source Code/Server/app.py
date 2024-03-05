@@ -295,10 +295,17 @@ class SIOThread:
 
         async with python_weather.Client(unit=python_weather.METRIC) as client:
             weather = await client.get(user.location)
+
+            moon_phase = ''
+            for forecast in weather.forecasts:
+                moon_phase = forecast.astronomy.moon_phase
+                break
+
             return web.json_response(data={
                 "temperature": weather.current.temperature,
                 "kind": str(weather.current.kind),
-                "humidity": weather.current.humidity
+                "humidity": weather.current.humidity,
+                "moon_phase": str(moon_phase)
             })
         
         
