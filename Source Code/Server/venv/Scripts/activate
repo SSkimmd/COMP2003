@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\Dev\COMP2003 Debug\Source Code\Server\venv"
+VIRTUAL_ENV="C:\Users\firem\AndroidStudioProjects\MyApplication2\COMP2003\Source Code\Server\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

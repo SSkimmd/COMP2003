@@ -5,7 +5,7 @@
     import FluentWeatherFog48Filled from '~icons/fluent/weather-fog-48-filled';
     import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
     import { goto } from '$app/navigation';
-    import { GetLocation, UpdateLocation, GetWeather } from "$lib/weather"
+    import { GetLocation, UpdateLocation, GetWeather, GetMoon, GetHumidity,GetTemp } from "$lib/weather"
   
     var currentLocation = ''
 
@@ -48,10 +48,31 @@
       {#await GetWeather()}
         <p>Loading...</p>
       {:then temp} 
-        <p>{temp}</p>
+        <p>The weather outside is {temp}</p>
       {/await}
     </div>
+    <div>
+      {#await GetMoon()}
+        <p>Loading...</p>
+      {:then temp} 
+        <p> The moon phase tonight is {temp}</p>
+      {/await}
+    </div>
+  <div>
+    {#await GetHumidity()}
+      <p>Loading...</p>
+    {:then temp} 
+      <p> The humidity is {temp}</p>
+    {/await}
   </div>
+<div>
+  {#await GetTemp()}
+    <p>Loading...</p>
+  {:then temp} 
+    <p> The temperature is {temp}°C</p>
+  {/await}
+</div>
+</div>
   
   <style>
     #device-content {
