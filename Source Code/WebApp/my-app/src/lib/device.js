@@ -4,7 +4,7 @@ export async function GetDevices() {
         "token": "thiswillberandomsoon"
     };
   
-    const endpoint = "http://10.188.196.69:5000/user";
+    const endpoint = "http://192.168.1.20:5000/user";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {

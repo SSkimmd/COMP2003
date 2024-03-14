@@ -5,7 +5,7 @@
     import FluentWeatherFog48Filled from '~icons/fluent/weather-fog-48-filled';
     import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
     import { goto } from '$app/navigation';
-    import { GetLocation, UpdateLocation, GetWeather, GetMoon, GetHumidity,GetTemp } from "$lib/weather"
+    import { GetLocation, UpdateLocation, GetWeather, GetMoon, GetHumidity,GetTemp, GetSunRise, GetSunSet, GetUV, GetWind } from "$lib/weather"
   
     var currentLocation = ''
 
@@ -70,6 +70,34 @@
     <p>Loading...</p>
   {:then temp} 
     <p> The temperature is {temp}°C</p>
+  {/await}
+</div>
+<div>
+  {#await GetSunRise()}
+    <p>Loading...</p>
+  {:then temp} 
+    <p> The sun rises at {temp}</p>
+  {/await}
+</div>
+<div>
+  {#await GetSunSet()}
+    <p>Loading...</p>
+  {:then temp} 
+    <p> The sun sets at {temp}</p>
+  {/await}
+</div>
+<div>
+  {#await GetWind()}
+    <p>Loading...</p>
+  {:then temp} 
+    <p> The wind speed is {temp}MPH</p>
+  {/await}
+</div>
+<div>
+  {#await GetUV()}
+    <p>Loading...</p>
+  {:then temp} 
+    <p> The UV is {temp}</p>
   {/await}
 </div>
 </div>

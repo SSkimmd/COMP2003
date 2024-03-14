@@ -4,7 +4,7 @@ export async function GetLocation() {
         "token": "thiswillberandomsoon"
     };
   
-    const endpoint = "http://10.188.196.69:5000/user";
+    const endpoint = "http://192.168.1.20:5000/user";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -28,7 +28,7 @@ export async function UpdateLocation(newLocation) {
         "location": newLocation
     };
   
-    const endpoint = "http://10.188.196.69:5000/user";
+    const endpoint = "http://192.168.1.20:5000/user";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -45,7 +45,7 @@ export async function GetWeather() {
         "token": "thiswillberandomsoon"
     };
   
-    const endpoint = "http://10.188.196.69:5000/weather";
+    const endpoint = "http://192.168.1.20:5000/weather";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -57,14 +57,14 @@ export async function GetWeather() {
     const json = await response.json()
     
 
-    return json['kind'];
+    return json['kind']; //kind
 }
 export async function GetMoon() {
     const user = {
         "token": "thiswillberandomsoon"
     };
   
-    const endpoint = "http://10.188.196.69:5000/weather";
+    const endpoint = "http://192.168.1.20:5000/weather";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -83,7 +83,7 @@ export async function GetHumidity() {
         "token": "thiswillberandomsoon"
     };
   
-    const endpoint = "http://10.188.196.69:5000/weather";
+    const endpoint = "http://192.168.1.20:5000/weather";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -103,7 +103,7 @@ export async function GetTemp() {
         "token": "thiswillberandomsoon"
     };
   
-    const endpoint = "http://10.188.196.69:5000/weather";
+    const endpoint = "http://192.168.1.20:5000/weather";
     const userdata = JSON.stringify(user)
   
     const response = await fetch(endpoint, {
@@ -116,4 +116,86 @@ export async function GetTemp() {
     
 
     return json['temperature'];
+}
+
+export async function GetSunRise() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.1.20:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+    
+
+    return json['sunrise'];
+}
+
+
+export async function GetSunSet() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.1.20:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+    
+
+    return json['sunset'];
+}
+
+export async function GetUV() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.1.20:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+    
+
+    return json['ultraviolet'];
+}
+
+
+export async function GetWind() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.1.20:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+    
+
+    return json['wind_speed'];
 }

@@ -70,7 +70,7 @@ class SIOThread:
 
         #192.168.0.19
         print("Server Succesfully Started")
-        web.run_app(self.app, host="10.188.196.69", port=5000, print=None, access_log=None)
+        web.run_app(self.app, host="192.168.1.20", port=5000, print=None, access_log=None)
 
     def SIOFunctions(self):
         @self.sio.on('login')
@@ -299,13 +299,19 @@ class SIOThread:
             moon_phase = ''
             for forecast in weather.forecasts:
                 moon_phase = forecast.astronomy.moon_phase.emoji
+                sunset = forecast.astronomy.sun_set
+                sunrise = forecast.astronomy.sun_rise
                 break
 
             return web.json_response(data={
                 "temperature": weather.current.temperature,
-                "kind": str(weather.current.kind),
+                "kind": str(weather.current.kind.emoji),
                 "humidity": weather.current.humidity,
-                "moon_phase": str(moon_phase)
+                "moon_phase": str(moon_phase),
+                "sunrise": str(sunrise),
+                "sunset": str(sunset),
+                "ultraviolet":str (weather.current.ultraviolet),
+                "wind_speed": round((weather.current.wind_speed / 1.60934))
             })
         
         
