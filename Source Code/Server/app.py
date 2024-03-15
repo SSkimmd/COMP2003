@@ -303,6 +303,10 @@ class SIOThread:
                 sunrise = forecast.astronomy.sun_rise
                 break
 
+           # weatherUpdate= ''
+           # for daily in weather.forecasts:
+
+
             return web.json_response(data={
                 "temperature": weather.current.temperature,
                 "kind": str(weather.current.kind.emoji),
