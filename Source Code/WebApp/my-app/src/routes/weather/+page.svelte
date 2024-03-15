@@ -44,7 +44,7 @@
           <input placeholder={currentLocation} bind:value={currentLocation}/>
           <button on:click={updateLocation}>Update</button>
       </div>
-      <div id="weather-box"></div>
+      <div id="weather-box">
           <div id="weather"class="border">
             <p>{#await GetWeather()} Loading... {:then temp} {temp} {/await}</p>
             <p>Temperature: {#await GetTemp()} Loading... {:then temp} {temp}°C {/await}</p>
@@ -74,12 +74,12 @@
           </div>
       </div>
   </div>
+</div>
 
 
 <style>
   #device-content {
-      margin-left: 25px;
-      margin-top: 25px;
+      margin:25px;
       text-align: center;
   }
 
@@ -98,7 +98,7 @@
 
   #weather-box {
     width: 35%;
-    height: 50vh;
+    height: 475px;
     display: inline-block;
     vertical-align: top;
   }
@@ -112,7 +112,7 @@
 
   #weather {
     margin-bottom: 5px;
-     height:100%;
+     height:288px;
       
   }
 
@@ -141,12 +141,12 @@
 }
 
 .right-box{
-  height: 33%;
+  height: 95px;
 }
 
 .vertical-container{
   width: 62%;
-  height:50vh;
+  height:95px;
   display: inline-block;
 }
 </style>
