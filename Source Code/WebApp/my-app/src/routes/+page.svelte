@@ -61,7 +61,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 50vh;
-        height: 50vh;
+        height: 40vh;
         background-color: #EDEDED;
         border-radius: 8px;
         font-family: 'Franklin Gothic Light';
@@ -92,11 +92,13 @@
     input{
         width: 30vh;
         height: 2.5vh;
+        margin: 10px;
     }
     button {
         width: 10vh;
         height: 2.5vh;
         background-color: #444444;
         color: #FFFFFF;
+        margin: 10px;
     }
 </style>
