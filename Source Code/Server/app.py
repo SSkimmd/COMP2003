@@ -5,6 +5,8 @@ import asyncio
 import socketio
 import python_weather
 import sqlite3
+from datetime import datetime
+
 
 from aiohttp import web
 from threading import Thread
@@ -303,8 +305,165 @@ class SIOThread:
                 sunrise = forecast.astronomy.sun_rise
                 break
 
-           # weatherUpdate= ''
-           # for daily in weather.forecasts:
+            count = 0  
+            x = 0
+            y=0
+            
+            # Get current time
+            current_time = datetime.now()
+
+# Extract the hour from the current time
+            current_hour = current_time.hour
+            for forecast in weather.forecasts:
+                for hourly in forecast.hourly:
+                    print (hourly.kind.emoji)
+                    count += 1
+                    if 0 <= current_hour < 3 and (count == 1 or x == 1):
+                        x = 1
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            kind3 = hourly.kind
+                            print("3")
+                            y+=1
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                            print
+                            print("4")
+                        else:
+                            y += 1
+                    elif 3 <= current_hour < 6 and (count == 2 or x == 2):
+                        x = 2
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 6 <= current_hour < 9 and (count == 3 or x == 3):
+                        x = 3
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 9 <= current_hour < 12 and (count == 4 or x == 4):
+                        x = 4
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 12 <= current_hour < 15 and (count == 5 or x == 5):
+                        x = 5
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 15 <= current_hour < 18 and (count == 6 or x == 6):
+                        x = 6
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 18 <= current_hour < 21 and (count == 7 or x == 7):
+                        x = 7
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    else:
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+
+
+                    #if hour_time <3:
+                    #hourly.kind
+                    #print (hour_time)
+           
+
+        #next 2 days Today tomorrow day after 
+            #for hourly in forecast.hourly:
+              #  print (hourly)
+            #for forecast in weather.forecasts:
+              #  print(f"For {forecast.date}: {forecast.kind}")
+
+            #type = weather.current.kind
+           # print (type)
+
 
 
             return web.json_response(data={
@@ -315,7 +474,11 @@ class SIOThread:
                 "sunrise": str(sunrise),
                 "sunset": str(sunset),
                 "ultraviolet":str (weather.current.ultraviolet),
-                "wind_speed": round((weather.current.wind_speed / 1.60934))
+                "wind_speed": round((weather.current.wind_speed / 1.60934)),
+                "kind1":str(kind1.emoji),
+                "kind2":str(kind2.emoji),
+                "kind3":str(kind3.emoji),
+                "kind4":str(kind4.emoji),
             })
         
         

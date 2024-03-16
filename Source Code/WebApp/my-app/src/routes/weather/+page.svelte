@@ -5,7 +5,7 @@
   import FluentWeatherFog48Filled from '~icons/fluent/weather-fog-48-filled';
   import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
   import { goto } from '$app/navigation';
-  import { GetLocation, UpdateLocation, GetWeather, GetMoon, GetHumidity, GetTemp, GetSunRise, GetSunSet, GetUV, GetWind } from "$lib/weather"
+  import { GetLocation, UpdateLocation, GetWeather, GetMoon, GetHumidity, GetTemp, GetSunRise, GetSunSet, GetUV, GetWind, GetKind2, GetKind1,GetKind3,GetKind4 } from "$lib/weather"
 
   var currentLocation = '';
 
@@ -45,14 +45,18 @@
           <button on:click={updateLocation}>Update</button>
       </div>
       <div id="weather-box">
-          <div id="weather"class="border">
+          <div id="weather"class="border"style="font-size: xx-large; text-align: center; padding-top: 65px">
             <p>{#await GetWeather()} Loading... {:then temp} {temp} {/await}</p>
-            <p>Temperature: {#await GetTemp()} Loading... {:then temp} {temp}°C {/await}</p>
+            <p>{#await GetTemp()} Loading... {:then temp} {temp}°C {/await}</p>
           </div>
       </div>
       <div class="vertical-container">
-      <div id="temporary" class="border right-box">
-              <p>TEMP</p>
+      <div id="temporary" class="border right-box"style =" font-size: xx-large; text-align: center; -webkit-writing-mode: vertical-lr;
+      ">
+              <p>{#await GetKind1()} Loading... {:then temp} {temp} {/await}</p>
+              <p>{#await GetKind2()} Loading... {:then temp} {temp} {/await}</p>
+              <p>{#await GetKind3()} Loading... {:then temp} {temp} {/await}</p>
+              <p>{#await GetKind4()} Loading... {:then temp} {temp} {/await}</p>
       </div>
       <div id="sunrise-sunset" class="border right-box">
           <p>Sunrise: {#await GetSunRise()} Loading... {:then temp} {temp} {/await}</p>
@@ -98,7 +102,7 @@
 
   #weather-box {
     width: 35%;
-    height: 475px;
+    height:310px;
     display: inline-block;
     vertical-align: top;
   }
@@ -112,7 +116,7 @@
 
   #weather {
     margin-bottom: 5px;
-     height:288px;
+     height:224px;
       
   }
 
@@ -131,8 +135,8 @@
 
   #extra-info div {
     width: 30%;
-    display: inline-block;
-    padding: 10px;
+    padding: 13px;
+    float: inline-end;
     margin-top: 10px;
   }
 

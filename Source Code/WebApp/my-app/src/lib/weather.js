@@ -198,4 +198,85 @@ export async function GetWind() {
     
 
     return json['wind_speed'];
+
+}
+
+export async function GetKind1() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.1.20:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+    
+
+    return json['kind1'];
+}
+
+export async function GetKind2() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.1.20:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+    
+
+    return json['kind2'];
+}
+
+export async function GetKind3() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.1.20:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+    
+
+    return json['kind3'];
+}
+
+export async function GetKind4() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.1.20:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+    
+
+    return json['kind4'];
 }
