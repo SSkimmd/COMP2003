@@ -43,16 +43,19 @@
     #navbar {
         position: absolute;
         width: 300px; 
-        height: 75vh;
+        height: 90vh;
         background-color: #EDEDED;
         border-radius: 8px;
-        margin-left: 50px;
+        margin-left: 35px;
+        margin-top: 35px;
+        margin-bottom: 35px;
     }
 
     #navbar p {
         position: absolute;
         margin-left: 100px;
         margin-top: 35px;
+        margin-bottom: 35px;
         font-family: 'Franklin Gothic Light';
     }
 </style>

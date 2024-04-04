@@ -15,7 +15,7 @@
   }
 </script>
 
-<div style='margin-top: 15vh;'>
+<div>
   <Navigation/>
 </div>
 
@@ -50,9 +50,12 @@
 
   #device {
     position: absolute;
-    margin-left: 456px;
-    width: 1000px;
-    height: 550px;
+    margin-left: 400px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+    min-width: 300px;
+    width: calc(100% - 435px);
+    height: 90vh;
     background-color: #EDEDED;
     border-radius: 8px;
 

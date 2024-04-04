@@ -25,7 +25,7 @@
   </script>
 
 
-<div style='margin-top: 15vh;'>
+<div>
     <Navigation/>
   </div>
   
@@ -44,7 +44,7 @@
       <input placeholder={currentLocation} bind:value={currentLocation}/>
       <button on:click={updateLocation}>Update</button>
     </div>
-    <div>
+    <div style= 'margin-left: 20px'>
       {#await GetWeather()}
         <p>Loading...</p>
       {:then temp} 
@@ -57,14 +57,19 @@
     #device-content {
       margin-left: 25px;
       margin-top: 25px;
-      text-align: center;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-right: 25px;
     }
   
     #device {
       position: absolute;
-      margin-left: 456px;
-      width: 1000px;
-      height: 550px;
+      margin-left: 400px;
+      margin-top: 35px;
+      margin-bottom: 35px;
+      min-width: 300px;
+      width: calc(100% - 435px);
+      height: 90vh;
       background-color: #EDEDED;
       border-radius: 8px;
   

@@ -40,9 +40,8 @@
     }
 
     div {
-        width: 450px;
-        height: 250px;
-        border-radius: 10px;
+       
+        border-radius: 8px;
         background-color: #EDEDED;
         cursor: pointer;
         border: none;
@@ -58,4 +57,6 @@
         cursor: pointer;
         border: none;    
     }
+
+    
 </style>

@@ -56,11 +56,11 @@
   })
 </script>
 
-<div style='margin-top: 15vh;'>
+<div>
   <Navigation/>
 </div>
 
-<div style='margin-top: 15vh;'>
+<div>
   <div id="device">
     <button on:click={backPressed} style='position:absolute; width: 40px; 
     height: 40px; margin-top: 20px; margin-left: 20px; 
@@ -130,9 +130,12 @@
 
   #device {
     position: absolute;
-    margin-left: 456px;
-    width: 1000px;
-    height: 550px;
+    margin-left: 400px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+    min-width: 300px;
+    width: calc(100% - 435px);
+    height: 90vh;
     background-color: #EDEDED;
     border-radius: 8px;
     list-style-type: none;
