@@ -1,13 +1,22 @@
 <script>
     import FaUserCircle from '~icons/fa/user-circle';
+    import { goto } from '$app/navigation';
+
+    function openLogoutPressed() {
+        goto("/");
+    }
+
+    function openProfilePressed() {
+        goto("/profile");
+    }
 </script>
 
 
 <div id="navbar">
     <FaUserCircle style='position: absolute; width: 40px; height: 40px; margin-left: 35px; margin-top: 40px'/>
     <p>Username Here</p>
-    <button id="logout">Logout</button>
-    <button id="profile">Profile</button>
+    <button id="logout" on:click={openLogoutPressed}>Logout</button>
+    <button id="profile" on:click={openProfilePressed}>Profile</button>
     <div id="navbar-content">
     </div>
 </div>
