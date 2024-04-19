@@ -5,7 +5,7 @@
     import FluentWeatherFog48Filled from '~icons/fluent/weather-fog-48-filled';
     import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
     import { goto } from '$app/navigation';
-    import { GetLocation, UpdateLocation } from "$lib/weather"
+    import { GetLocation, UpdateLocation, GetWeather } from "$lib/weather"
   
     var currentLocation = ''
 
@@ -43,6 +43,13 @@
       <p style='font-size: large;'>Current Location</p>
       <input placeholder={currentLocation} bind:value={currentLocation}/>
       <button on:click={updateLocation}>Update</button>
+    </div>
+    <div>
+      {#await GetWeather()}
+        <p>Loading...</p>
+      {:then temp} 
+        <p>{temp}</p>
+      {/await}
     </div>
   </div>
   

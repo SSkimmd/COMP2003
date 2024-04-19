@@ -39,3 +39,22 @@ export async function UpdateLocation(newLocation) {
 
     return response.ok;
 }
+
+export async function GetWeather() {
+    const user = {
+        "token": "thiswillberandomsoon"
+    };
+  
+    const endpoint = "http://192.168.0.19:5000/weather";
+    const userdata = JSON.stringify(user)
+  
+    const response = await fetch(endpoint, {
+        method: 'POST',
+        mode: 'cors',
+        body: userdata
+    })
+
+    const json = await response.json()
+
+    return json['moon_phase'];
+}

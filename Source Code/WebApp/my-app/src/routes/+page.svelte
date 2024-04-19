@@ -99,6 +99,5 @@
         height: 2.5vh;
         background-color: #444444;
         color: #FFFFFF;
-        margin: 10px;
     }
 </style>

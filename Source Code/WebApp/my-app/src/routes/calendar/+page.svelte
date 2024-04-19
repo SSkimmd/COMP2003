@@ -1,20 +1,66 @@
 <script>
-    import { json } from "@sveltejs/kit";
-    import { onMount } from "svelte";
-    import Navigation from "../../components/navigation.svelte";
-    import ClarityCalendarLine from '~icons/clarity/calendar-line';
-    import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
-    import { goto } from '$app/navigation';
-  
-    function backPressed() {
-      goto('/home')
-    }
-  </script>
+  // @ts-ignore
+  import { onMount } from "svelte";
+  import ClarityCalendarLine from '~icons/clarity/calendar-line';
+  import IonReturnDownBackSharp from '~icons/ion/return-down-back-sharp';
+  import { goto } from '$app/navigation';
+  import Navigation from "../../components/navigation.svelte";
+  import { writable } from 'svelte/store';
+  import { GetEvents, FetchICal } from '$lib/calendar'
+  import { formatTime } from '$lib/util'
+
+  function backPressed() {goto('/home');}
+
+  /**
+     * @param {any[]} events 
+     */
+  async function getNextEvents(events) 
+  {
+    const currentTime = new Date();
+    
+    /**
+       * @type {{ start: Date; end: Date; summary: any; location: any; description: any; }[]}
+       */
+    // @ts-ignore
+    // @ts-ignore
+    const upcomingEvents = [];
+
+    events.forEach(event => {
+      const eventStart = event.start;
+      if (eventStart > currentTime) 
+      {
+        upcomingEvents.push(
+          {
+          ...event,
+          start: eventStart
+          });
+      }
+    });
+
+    // @ts-ignore
+    return upcomingEvents.sort((a, b) => a.start - b.start).slice(0, 5);
+  }
+
+
+  // @ts-ignore
+  const upcomingEvents = writable([]);
+
+  onMount(() => {
+      // @ts-ignore
+      FetchICal().then((data) => {
+        GetEvents(data).then((events) => {
+          // @ts-ignore
+          getNextEvents(events).then(upcoming => upcomingEvents.set(upcoming))
+        })
+      })
+  })
+</script>
 
 <div style='margin-top: 15vh;'>
-    <Navigation/>
-  </div>
-  
+  <Navigation/>
+</div>
+
+<div style='margin-top: 15vh;'>
   <div id="device">
     <button on:click={backPressed} style='position:absolute; width: 40px; 
     height: 40px; margin-top: 20px; margin-left: 20px; 
@@ -24,26 +70,72 @@
     
     <ClarityCalendarLine style='position: absolute; margin-top: 20px; margin-left: 70px; width: 30px; height: 30px;'/>
     <p style='margin-left: 120px; margin-top: 25px;'>Calendar</p>
-  
+
     <div id="device-content">
+      <ul>
+        {#each $upcomingEvents as event}
+          <li>
+            <div class="date-box">{event.start.getDate()} <br>
+              {(event.start.toLocaleString('default', { month: 'short' })).toUpperCase()}      
+            </div>
+            <div class="event-details">
+              <strong>{event.summary}</strong><br>
+              {formatTime(event.start)} - {formatTime(event.end)}<br>
+              {event.location.replace(/\\/g, '')}<br>
+            </div>
+          </li>
+        {/each}
+      </ul>
     </div>
-  </div>
-  
-  <style>
-    #device-content {
-      margin-left: 25px;
-      margin-top: 25px;
-      text-align: center;
-    }
-  
-    #device {
-      position: absolute;
-      margin-left: 456px;
-      width: 1000px;
-      height: 550px;
-      background-color: #EDEDED;
-      border-radius: 8px;
-  
-      font-family: 'Franklin Gothic Light';
-    }
-  </style>
+  </div> 
+</div>
+
+<style>
+  #device-content {
+    margin-left: 25px;
+    margin-top: 25px;
+    text-align: left;
+    margin-bottom: 25px;
+    margin-right: 25px;
+  }
+
+  #device-content li {
+    list-style: none;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    padding: 10px; 
+    margin-bottom: 10px; 
+  }
+
+  .date-box {
+    display: grid;
+    align-items: center;
+    width: 60px;
+    float: left;
+    clear: both;
+    min-height: 50px;
+    border-right: 10px solid #ccc;
+    padding-right: 10px; 
+    margin-right: 10px;
+    border-radius: 10px;
+    margin-top: -10px;
+    padding-top: 12px;
+    padding-bottom: 11px;
+    text-align: center;
+  }
+
+  #device-content ul {
+    padding-right: 40px;
+  }
+
+  #device {
+    position: absolute;
+    margin-left: 456px;
+    width: 1000px;
+    height: 550px;
+    background-color: #EDEDED;
+    border-radius: 8px;
+    list-style-type: none;
+    font-family: 'Franklin Gothic Light';
+  }
+</style>

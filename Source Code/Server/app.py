@@ -4,6 +4,7 @@ import aiohttp
 import asyncio
 import socketio
 import python_weather
+import sqlite3
 
 from aiohttp import web
 from threading import Thread
@@ -22,14 +23,15 @@ from datetime import date
 
 
 class User:
-    def __init__(self, username):
+    def __init__(self, username: str = None, location: str = None):
         self.username = username
+        self.location = location
 
         self.db = None
         self.token = None
 
         self.devices = []
-        self.location = None
+        self.calendar = None
 
 class Device(dict):
     def __init__(self, sid, name):
@@ -64,7 +66,10 @@ class SIOThread:
         self.cors.add(self.app.router.add_post('/user', self.WebGetUser))
         self.cors.add(self.app.router.add_patch('/user', self.WebUpdateUser))
 
+        self.cors.add(self.app.router.add_post('/weather', self.WebGetWeather))
+
         #192.168.0.19
+        print("Server Succesfully Started")
         web.run_app(self.app, host="192.168.0.19", port=5000, print=None, access_log=None)
 
     def SIOFunctions(self):
@@ -72,12 +77,17 @@ class SIOThread:
         async def UserLogin(sid, username, password, name):
             server_loop = asyncio.get_event_loop()
 
+            username = username['username']
+            password = password['password']
 
-            user = await self.GetUser(username['username'])
+            #attempt to login
+            user = await self.Login(username, password)
 
+            #if user doesn't exist just return
             if user == None:
                 return
             
+            #if user exists, create and start device thread
             db = DBThread(self.sio, user, sid, server_loop).start()
             user.db = db
 
@@ -85,7 +95,6 @@ class SIOThread:
             user.devices.append(device)
 
             print(f'Device Added Named: {name["name"]}')
-            
 
     async def GetUser(self, username):
         for user in self.users:
@@ -99,11 +108,83 @@ class SIOThread:
                 return user
         return None
     
+    async def GetAuthenticatedUser(self, data):
+        if 'token' not in data:
+            return None
+    
+        token = data['token']
+        user = await self.GetByToken(token) 
+
+        if user is None:
+            return None
+        return user
+    
+    async def GetUserFromDatabase(self, username):
+        database = sqlite3.connect("users.db")
+        cursor = database.cursor()
+
+        #get user
+        user = cursor.execute("SELECT * FROM Users WHERE username = ?", (username,)).fetchone()
+
+        database.close()
+
+        return user
+    
+    async def Logout(self, username):
+        user = await self.GetUser(username)
+        self.users.remove(user)
+    
+    async def Login(self, username, password, token = None):
+        #check if user is cached
+        user = await self.GetUser(username)
+
+        #if user isnt cached check if they're in the database
+        if user is None or token is None:
+            user = await self.GetUserFromDatabase(username)
+
+            #if user is not in database return none
+            if user is None:
+                return None
+
+            #check password
+            if user[1] != password:
+                return None
+
+            dbusername = user[0]
+            dblocation = user[2]
+            dbtoken = user[3]
+
+            #create user object
+            user = User(dbusername, dblocation)
+
+            #get random token from database user
+            user.token = dbtoken
+
+            #cache user
+            self.users.append(user)
+
+            #if user object generated successfully return it
+            return user
+        else:
+            #if user is cached check token
+            if token is not None:
+                if user.token != token:
+                    return None
+                
+                return user
+            #if token doesn't exist the user has removed it
+            else:
+                #force logout
+                await self.Logout(username)
+
+                #attempt to log back in, hopefully don't go into an infinite loop
+                await self.Login(username, password)
+
+    
     async def WebUpdateUser(self, data):
         response = await data.json()
 
-
-        if not response['token']:
+        if 'token' not in response:
             return web.Response(text="No Token In Body")
         
         token = response['token']
@@ -118,18 +199,13 @@ class SIOThread:
     async def WebGetUser(self, data):
         response = await data.json()
 
-        if not response['token']:
+        if 'token' not in response:
             return web.Response(text="No Token In Body")
-    
         
-        token = response['token']
-        user = await self.GetByToken(token)
+        user = await self.GetAuthenticatedUser(response)
 
         if user is None:
             return web.Response(text="User Doesn't Exist")
-
-        if user.token != token:
-            return web.Response(text="Incorrect Token Re-Authenticate")
         
         return web.json_response(data={
             "devices": user.devices,
@@ -139,39 +215,100 @@ class SIOThread:
     async def WebRegister(self, data):
         response = await data.json()
 
+        #get username and password from body of request
         username = response['username']
         password = response['password']
 
+        #check if password and username have a length more than 0, should be checked at client level first
         if len(username) <= 0 or len(password) <= 0:
-            return web.Response(text="Failed To Create Account")
+            return web.Response(text="Failed To Create Account", status=400)
         
-        user = User(username)
+        #create user object
+        user = User(username, 'Plymouth')
+
+        #generate random token
         user.token = 'thiswillberandomsoon'
-        user.location = 'Plymouth'
 
-        self.users.append(user)
+        #open database connection
+        database = sqlite3.connect("users.db")
+        cursor = database.cursor()
 
+        #add user to database
+        cursor.execute(f"INSERT INTO Users VALUES ('{username}', '{password}', '{user.location}', '{user.token}')")
+
+        database.commit()
+        database.close()
+
+        return web.Response(text='Successfully Registered')
+       
+    async def WebLogin(self, data): 
+        response = await data.json()
+
+        #ensure correct data is in the body of the request
+        if 'username' not in response or 'password' not in response:
+            return web.Response(text='Username Or Password Not In Body', status=400)
+        
+
+        username = response['username']
+        password = response['password']
+
+        user = None
+
+        if 'token' in response:
+            token = response['token']
+            user = await self.Login(username, password, token)
+        else:
+            user = await self.Login(username, password)
+
+        #if user still doesn't exist, return error code
+        if user is None:
+            return web.Response(text="Incorrect Username Or Password", status=400)
+
+        #return token
         return web.json_response(data={
             "token": user.token
         })
-            
-    async def WebLogin(self, data):  
+    
+    async def WebUpdateCalendar(self, data):
         response = await data.json() 
 
-        username = response['username']  
+        user = await self.GetAuthenticatedUser(response)
 
-        user = await self.GetUser(username)
-
-        if user == None:
-            return web.Response(text='User Does Not Exist', status=400)
+        if user is None:
+            return
         
-        if response['token']:
-            if user.token != response['token']:
-                return web.Response(text="Incorrect Token, Re-Authenticate")
+        if 'calendar' not in response:
+            return
+        
+        user.calendar = response['calendar']
+    
+    async def WebGetWeather(self, data):
+        response = await data.json()
 
-        return web.json_response(data={
-            "token": user.token
-        })
+        if 'token' not in response:
+            return web.Response("No Token In Body", status=400)
+
+        user = await self.GetAuthenticatedUser(response)
+
+        if user is None:
+            return web.Response(text="User Doesnt Exist", status=400)
+
+        async with python_weather.Client(unit=python_weather.METRIC) as client:
+            weather = await client.get(user.location)
+
+            moon_phase = ''
+            for forecast in weather.forecasts:
+                moon_phase = forecast.astronomy.moon_phase
+                break
+
+            return web.json_response(data={
+                "temperature": weather.current.temperature,
+                "kind": str(weather.current.kind),
+                "humidity": weather.current.humidity,
+                "moon_phase": str(moon_phase)
+            })
+        
+        
 
 class DBThread(Thread):
     def __init__(self, sio, user, sid, server_loop):
@@ -204,6 +341,9 @@ class DBThread(Thread):
         async with python_weather.Client(unit=python_weather.METRIC) as client:
             weather = await client.get(self.user.location)
             return f'{weather.current.temperature},  {weather.current.description}'
+        
+    async def GetCalendar(self):
+        pass
 
 
 if __name__ == '__main__':
