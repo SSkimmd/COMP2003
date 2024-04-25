@@ -64,14 +64,14 @@
   
     #device {
       position: absolute;
-      margin-left: 400px;
       margin-top: 35px;
       margin-bottom: 35px;
-      min-width: 300px;
-      width: calc(100% - 435px);
-      height: 90vh;
+      min-width: 50px;
+      width: 99%;
+      height: 80%;
       background-color: #EDEDED;
       border-radius: 8px;
+
   
       font-family: 'Franklin Gothic Light';
     }

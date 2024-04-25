@@ -35,20 +35,19 @@
     #navbar-content {
         display: flex;
         flex-direction: column;
-        width: 100%;
-        margin-top: 100px;
-        margin-left: 30px;
+       
+        margin-top: 25px;
+      
+        
     }
 
     #navbar {
-        position: absolute;
-        width: 300px; 
-        height: 90vh;
+       
+        width: flex; 
+        height: flex;
         background-color: #EDEDED;
-        border-radius: 8px;
-        margin-left: 35px;
-        margin-top: 35px;
-        margin-bottom: 35px;
+        
+       
     }
 
     #navbar p {
