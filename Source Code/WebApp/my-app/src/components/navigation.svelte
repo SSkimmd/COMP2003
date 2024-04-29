@@ -43,10 +43,10 @@
 
     #navbar {
        
-        width: flex; 
+        width: 100%; 
         height: flex;
         background-color: #EDEDED;
-        
+        margin: 0;
        
     }
 

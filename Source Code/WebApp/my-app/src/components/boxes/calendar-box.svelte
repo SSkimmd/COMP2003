@@ -48,11 +48,22 @@
         })
       })
   })
+
+  /**
+     * Function to prevent the button click event from bubbling up to the parent div
+     * and triggering its click event.
+     * @param {Event} event The click event
+     */
+     function stopPropagation(event) {
+        event.stopPropagation();
+    }
+  
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div style='margin-top: 0vh; border-radius:8px; background-color: #EDEDED; cursor: pointer;' on:click={openCalendarPressed}>
+<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative;'>
+    <button on:click={openCalendarPressed} on:click|preventDefault={stopPropagation} />
     <ClarityCalendarLine style='position: absolute; margin-top: 15px; margin-left: 20px; width: 24px; height: 24px;'/>
     <p style='margin-left: 60px; margin-top: 18px; font-family: "Franklin Gothic Light"; font-size: 18px;'>Calendar</p>
     
@@ -70,19 +81,9 @@
         </ul>
     </div>
     
-    <button style='position:absolute; width: 394px; height: 206px; left: 0; top: 0; background-color: transparent; border: none; cursor: pointer; z-index: 1;'></button>
 </div> 
 
 <style>
-    #device {
-        width: 420px;
-        height: 228px; 
-        border-radius: 8px;
-        cursor: pointer;
-        border: none;
-        position: relative; 
-    }
-
     #device-content {
         margin-top: 18px;
         text-align: left;
@@ -118,5 +119,17 @@
         padding-bottom: 6px;
         text-align: center;
         font-size: 14px;
+    }
+
+    div button {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        z-index: 1;
     }
 </style>
