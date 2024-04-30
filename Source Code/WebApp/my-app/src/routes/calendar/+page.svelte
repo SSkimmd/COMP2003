@@ -69,7 +69,7 @@
     </button>
     
     <ClarityCalendarLine style='position: absolute; margin-top: 20px; margin-left: 70px; width: 30px; height: 30px;'/>
-    <p style='margin-left: 120px; margin-top: 25px;'>Calendar</p>
+    <p style='margin-left: 120px; margin-top: 20px; font-size: 24px;'><b>Calendar</b></p>
 
     <div id="device-content">
       <ul>
@@ -122,6 +122,7 @@
     padding-top: 12px;
     padding-bottom: 11px;
     text-align: center;
+    
   }
 
   #device-content ul {
@@ -137,8 +138,9 @@
       height: 80%;
       background-color: #EDEDED;
       border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
     list-style-type: none;
-    font-family: 'Franklin Gothic Light';
+    font-family: 'Century751-Roman';
   }
 </style>

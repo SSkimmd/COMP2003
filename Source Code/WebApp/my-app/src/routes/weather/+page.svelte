@@ -37,10 +37,10 @@
     </button>
     
     <FluentWeatherFog48Filled style='position: absolute; margin-top: 20px; margin-left: 70px; width: 30px; height: 30px;'/>
-    <p style='margin-left: 120px; margin-top: 25px;'>Weather Settings</p>
+    <p style='margin-left: 120px; margin-top: 20px; font-size: 24px;'><b>Weather Settings</b></p>
   
     <div id="device-content">
-      <p style='font-size: large;'>Current Location</p>
+      <p style='font-size: 24px;'><b>Current Location</b></p>
       <input placeholder={currentLocation} bind:value={currentLocation}/>
       <button on:click={updateLocation}>Update</button>
     </div>
@@ -71,8 +71,9 @@
       height: 80%;
       background-color: #EDEDED;
       border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
   
-      font-family: 'Franklin Gothic Light';
+      font-family: 'Century751-Roman';
     }
   </style>

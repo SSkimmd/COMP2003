@@ -62,10 +62,10 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative;'>
+<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;'>
     <button on:click={openCalendarPressed} on:click|preventDefault={stopPropagation} />
-    <ClarityCalendarLine style='position: absolute; margin-top: 15px; margin-left: 20px; width: 24px; height: 24px;'/>
-    <p style='margin-left: 60px; margin-top: 18px; font-family: "Franklin Gothic Light"; font-size: 18px;'>Calendar</p>
+    <ClarityCalendarLine style='position: absolute; margin-top: 15px; margin-left: 20px; width: 24px; height: 24px; '/>
+    <p style='margin-left: 60px; margin-top: 15px; font-family: "Century751-Roman"; font-size: 18px; font-size: 24px;'><b>Calendar</b></p>
     
     <div id="device-content">
         <ul>
@@ -90,17 +90,23 @@
         margin-bottom: 18px;
         margin-right: 18px;
         overflow-y: auto;
-        font-family:'Franklin Gothic Light'
+        font-family:'Century751-Roman'
+        
     }
 
     #device-content ul {
         padding-left: 15px;
         margin: 0;
+        
+
     }
 
     #device-content li {
         list-style: none;
         padding: 4px; 
+        
+        
+        
     }
 
     .date-box {
@@ -119,6 +125,8 @@
         padding-bottom: 6px;
         text-align: center;
         font-size: 14px;
+        
+        
     }
 
     div button {
@@ -131,5 +139,6 @@
         border: none;
         cursor: pointer;
         z-index: 1;
+       
     }
 </style>

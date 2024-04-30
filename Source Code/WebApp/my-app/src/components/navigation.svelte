@@ -4,8 +4,8 @@
 
 
 <div id="navbar">
-    <FaUserCircle style='position: absolute; width: 40px; height: 40px; margin-left: 35px; margin-top: 40px'/>
-    <p>Username Here</p>
+    <FaUserCircle style='position: absolute; width: 40px; height: 40px; margin-left: 35px; margin-top: 40px;'/>
+    <p style = 'font-size: 20px;'><b>Username Here</b></p>
     <button id="logout">Logout</button>
     <button id="profile">Profile</button>
     <div id="navbar-content">
@@ -27,7 +27,7 @@
         width: 60px;
         height: 25px;
         border-radius: 4px;     
-        background-color: #444444;
+        background-color: #757272;
         border: none;
     }
 
@@ -47,6 +47,7 @@
         height: flex;
         background-color: #EDEDED;
         margin: 0;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
        
     }
 
@@ -55,6 +56,6 @@
         margin-left: 100px;
         margin-top: 35px;
         margin-bottom: 35px;
-        font-family: 'Franklin Gothic Light';
+        font-family: 'Century751-Roman';
     }
 </style>

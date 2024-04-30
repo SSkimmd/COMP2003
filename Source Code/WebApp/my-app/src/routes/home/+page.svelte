@@ -31,6 +31,7 @@
         grid-template-columns: repeat(auto-fit, minmax(50px, 919px)); 
         grid-template-rows: repeat(2, 350px); 
         
+        
     }
 
    

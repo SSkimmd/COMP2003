@@ -64,7 +64,7 @@
         height: 50vh;
         background-color: #EDEDED;
         border-radius: 8px;
-        font-family: 'Franklin Gothic Light';
+        font-family: 'Century751-Roman';
     }
     #fieldbox-content{
         text-align: center;

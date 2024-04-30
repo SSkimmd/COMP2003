@@ -17,11 +17,11 @@
     }
 </script>
 
-<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative;'>
+<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;'>
     <button on:click={openDevicePressed} on:click|preventDefault={stopPropagation} />
     <RiDeviceFill style='position: absolute; margin-top: 20px; margin-left: 25px; width: 30px; height: 30px;'/>
-    <p style='margin-left: 80px; margin-top: 25px;'>Device</p>
-    <MaterialSymbolsCircle style='position: absolute; margin-left: 30px; margin-top: 20px; color: green;'/>
+    <p style='margin-left: 80px; margin-top: 20px; font-size: 24px;'><b>Device</b></p>
+    <MaterialSymbolsCircle style='position: absolute; margin-left: 30px; margin-top: 10px; color: green;'/>
     <p id="device-connected">Device Connected</p>
 </div>
 
@@ -35,8 +35,9 @@
         border-radius: 8px;
         cursor: pointer;
         border: none;
-        font-family:'Franklin Gothic Light';
+        font-family:'Century751-Roman';
         position: relative;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     }
 
     div button {
