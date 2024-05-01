@@ -20,9 +20,7 @@
 </div>
 
 <div id="device">
-  <button on:click={backPressed} style='position:absolute; width: 40px; 
-  height: 40px; margin-top: 20px; margin-left: 20px; 
-  background-color: transparent; border: none; cursor: pointer;'>
+  <button on:click={backPressed}>
     <IonReturnDownBackSharp style='width: 30px; height: 30px;'/>
   </button>
   
@@ -61,4 +59,26 @@
 
     font-family: 'Century751-Roman';
   }
+
+  button {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 20px;
+        left: 20px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        overflow: hidden;
+        border-radius: 50%;
+        transition: border-color 0.3s ease;
+        border: 2px solid transparent;
+        padding: 0; 
+        margin: 0; 
+    }
+
+    button:hover {
+        border-color: #000;
+    }
+
 </style>

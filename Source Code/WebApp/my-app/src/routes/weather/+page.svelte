@@ -26,43 +26,42 @@
 
 
 <div>
-    <Navigation/>
-  </div>
-  
-  <div id="device">
-    <button on:click={backPressed} style='position:absolute; width: 40px; 
-    height: 40px; margin-top: 20px; margin-left: 20px; 
-    background-color: transparent; border: none; cursor: pointer;'>
+  <Navigation/>
+</div>
+
+<div id="device">
+  <button on:click={backPressed} class="back-button">
       <IonReturnDownBackSharp style='width: 30px; height: 30px;'/>
-    </button>
-    
-    <FluentWeatherFog48Filled style='position: absolute; margin-top: 20px; margin-left: 70px; width: 30px; height: 30px;'/>
-    <p style='margin-left: 120px; margin-top: 20px; font-size: 24px;'><b>Weather Settings</b></p>
+  </button>
   
-    <div id="device-content">
+  <FluentWeatherFog48Filled style='position: absolute; margin-top: 20px; margin-left: 70px; width: 30px; height: 30px;'/>
+  
+  <p style='margin-left: 120px; margin-top: 20px; font-size: 24px;'><b>Weather Settings</b></p>
+
+  <div id="device-content">
       <p style='font-size: 24px;'><b>Current Location</b></p>
       <input placeholder={currentLocation} bind:value={currentLocation}/>
       <button on:click={updateLocation}>Update</button>
-    </div>
-    <div style= 'margin-left: 20px'>
-      {#await GetWeather()}
-        <p>Loading...</p>
-      {:then temp} 
-        <p>{temp}</p>
-      {/await}
-    </div>
   </div>
-  
-  <style>
-    #device-content {
+  <div style= 'margin-left: 20px'>
+      {#await GetWeather()}
+          <p>Loading...</p>
+      {:then temp} 
+          <p>{temp}</p>
+      {/await}
+  </div>
+</div>
+
+<style>
+  #device-content {
       margin-left: 25px;
       margin-top: 25px;
-    text-align: center;
-    margin-bottom: 25px;
-    margin-right: 25px;
-    }
-  
-    #device {
+      text-align: center;
+      margin-bottom: 25px;
+      margin-right: 25px;
+  }
+
+  #device {
       position: absolute;
       margin-top: 35px;
       margin-bottom: 35px;
@@ -72,8 +71,27 @@
       background-color: #EDEDED;
       border-radius: 8px;
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
-  
       font-family: 'Century751-Roman';
-    }
-  </style>
+  }
+
+  .back-button {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      top: 20px;
+      left: 20px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 50%;
+      transition: border-color 0.3s ease;
+      border: 2px solid transparent;
+      padding: 0; 
+      margin: 0; 
+  }
+
+  .back-button:hover {
+      border-color: #000;
+  }
+</style>

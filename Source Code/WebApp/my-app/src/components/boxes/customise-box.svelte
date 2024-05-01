@@ -17,7 +17,7 @@
     
 </script>
 
-<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative;'>
+<div style='border-radius: 8px; cursor: pointer; position: relative;'>
     <button on:click={openCustomisePressed} on:click|preventDefault={stopPropagation} />
     <AkarIconsEdit style='position: absolute; margin-top: 20px; margin-left: 25px; width: 30px; height: 30px;'/>
     <p style='margin-left: 80px; margin-top: 20px; font-size: 24px;'><b>Customise</b></p>
@@ -38,7 +38,14 @@
         border: none;
         font-family:'Century751-Roman';
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        transition: filter 0.7s ease;
     }
+
+    div:hover {
+        filter: brightness(90%);
+    }
+        
+    
 
     p {
         font-size: large;

@@ -17,7 +17,7 @@
     }
 </script>
 
-<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;'>
+<div style='border-radius: 8px;  cursor: pointer; position: relative; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; transition: filter 0.7s ease;'>
     <button on:click={openDevicePressed} on:click|preventDefault={stopPropagation} />
     <RiDeviceFill style='position: absolute; margin-top: 20px; margin-left: 25px; width: 30px; height: 30px;'/>
     <p style='margin-left: 80px; margin-top: 20px; font-size: 24px;'><b>Device</b></p>
@@ -35,10 +35,17 @@
         border-radius: 8px;
         cursor: pointer;
         border: none;
+        background-color: #EDEDED;
         font-family:'Century751-Roman';
         position: relative;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        transition: filter 0.7s ease;
     }
+
+    div:hover {
+        filter: brightness(90%);
+    }
+        
 
     div button {
         position: absolute;

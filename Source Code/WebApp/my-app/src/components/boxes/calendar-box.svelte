@@ -62,7 +62,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;'>
+<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; transition: filter 0.7s ease;'>
     <button on:click={openCalendarPressed} on:click|preventDefault={stopPropagation} />
     <ClarityCalendarLine style='position: absolute; margin-top: 15px; margin-left: 20px; width: 24px; height: 24px; '/>
     <p style='margin-left: 60px; margin-top: 15px; font-family: "Century751-Roman"; font-size: 18px; font-size: 24px;'><b>Calendar</b></p>
@@ -107,6 +107,10 @@
         
         
         
+    }
+
+    div:hover {
+        filter: brightness(90%);
     }
 
     .date-box {

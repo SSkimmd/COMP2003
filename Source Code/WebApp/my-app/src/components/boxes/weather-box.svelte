@@ -18,7 +18,7 @@
 
 </script>
 
-<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative;'>
+<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; transition: filter 0.7s ease;'>
     <button on:click={openWeatherPressed} on:click|preventDefault={stopPropagation} />
     <FluentWeatherFog48Filled style='position: absolute; margin-top: 20px; margin-left: 25px; width: 30px; height: 30px;'/>
     <p style='margin-left: 80px; margin-top: 20px; font-size: 24px;'><b>Weather</b></p>
@@ -58,6 +58,11 @@
         border: none;
         font-family:'Century751-Roman';
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      
+    }
+
+    div:hover {
+        filter: brightness(90%);
     }
 
     div button {
