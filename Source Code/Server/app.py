@@ -72,7 +72,7 @@ class SIOThread:
 
         #192.168.0.19
         print("Server Succesfully Started")
-        web.run_app(self.app, host="192.168.1.20", port=5000, print=None, access_log=None)
+        web.run_app(self.app, host="127.0.0.1", port=5000, print=None, access_log=None)
 
     def SIOFunctions(self):
         @self.sio.on('login')
@@ -287,16 +287,21 @@ class SIOThread:
     async def WebGetWeather(self, data):
         response = await data.json()
 
+
         if 'token' not in response:
             return web.Response("No Token In Body", status=400)
 
+
         user = await self.GetAuthenticatedUser(response)
+
 
         if user is None:
             return web.Response(text="User Doesnt Exist", status=400)
 
+
         async with python_weather.Client(unit=python_weather.METRIC) as client:
             weather = await client.get(user.location)
+
 
             moon_phase = ''
             for forecast in weather.forecasts:
@@ -305,12 +310,14 @@ class SIOThread:
                 sunrise = forecast.astronomy.sun_rise
                 break
 
+
             count = 0  
             x = 0
             y=0
-            
+           
             # Get current time
             current_time = datetime.now()
+
 
 # Extract the hour from the current time
             current_hour = current_time.hour
@@ -328,13 +335,10 @@ class SIOThread:
                             y += 1
                         elif y == 3:
                             kind3 = hourly.kind
-                            print("3")
                             y+=1
                         elif y ==4:
                             y+=1
                             kind4 = hourly.kind
-                            print
-                            print("4")
                         else:
                             y += 1
                     elif 3 <= current_hour < 6 and (count == 2 or x == 2):
@@ -403,18 +407,23 @@ class SIOThread:
                             y += 1
                     elif 15 <= current_hour < 18 and (count == 6 or x == 6):
                         x = 6
+                        print(current_hour,count,x,y)
                         if y == 1:
                             kind1 = hourly.kind
                             y += 1
+                            print("yup")
                         elif y == 2:
                             kind2 = hourly.kind
                             y += 1
+                            print("yup")
                         elif y == 3:
                             y+=1
                             kind3 = hourly.kind
+                            print("yup")
                         elif y ==4:
                             y+=1
                             kind4 = hourly.kind
+                            print("yup")
                         else:
                             y += 1
                     elif 18 <= current_hour < 21 and (count == 7 or x == 7):
@@ -446,8 +455,7 @@ class SIOThread:
                         elif y ==4:
                             y+=1
                             kind4 = hourly.kind
-                        else:
-                            y += 1
+
 
 
                     #if hour_time <3:
@@ -455,14 +463,18 @@ class SIOThread:
                     #print (hour_time)
            
 
-        #next 2 days Today tomorrow day after 
+
+        #next 2 days Today tomorrow day after
             #for hourly in forecast.hourly:
               #  print (hourly)
             #for forecast in weather.forecasts:
               #  print(f"For {forecast.date}: {forecast.kind}")
 
+
             #type = weather.current.kind
            # print (type)
+
+
 
 
 
