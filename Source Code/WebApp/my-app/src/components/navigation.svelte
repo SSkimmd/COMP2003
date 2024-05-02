@@ -1,5 +1,14 @@
 <script>
     import FaUserCircle from '~icons/fa/user-circle';
+    import { goto } from '$app/navigation';
+
+    function openLogoutPressed() {
+        goto("/");
+    }
+
+    function openProfilePressed() {
+        goto("/profile");
+    }
 </script>
 
 
