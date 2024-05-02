@@ -1,4 +1,5 @@
 <script>
+    import FaUserCircle from '~icons/fa/user-circle';
     import Navigation from "../../components/navigation.svelte";
     import WeatherBox from "../../components/boxes/weather-box.svelte";
     import DeviceBox from "../../components/boxes/device-box.svelte";
@@ -6,25 +7,32 @@
     import CustomiseBox from "../../components/boxes/customise-box.svelte";
 </script>
 
+<div id="app">
+    <Navigation/>
 
-<Navigation/>
-<div id="grid">
-    <WeatherBox/>
-    <DeviceBox/>
-    <CalendarBox/>
-    <CustomiseBox/>
+    <div id="content">
+        <div id="grid">
+            <WeatherBox/>
+            <DeviceBox/>
+            <CalendarBox/>
+            <CustomiseBox/>
+        </div>
+    </div>
 </div>
 
-
 <style>
-    #grid {
-        margin-left: 30%;
-        margin-top: 15vh;
+  
+  
 
+    #grid {
         display: grid;
-        grid-template-columns: 450px 250px;
-        grid-template-rows: auto;
-        column-gap: 100px;
-        row-gap: 50px;
+        gap: 1rem;
+        padding: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 919px)); 
+        grid-template-rows: repeat(2, 350px); 
+        
+        
     }
+
+   
 </style>

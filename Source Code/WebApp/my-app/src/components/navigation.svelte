@@ -13,10 +13,10 @@
 
 
 <div id="navbar">
-    <FaUserCircle style='position: absolute; width: 40px; height: 40px; margin-left: 35px; margin-top: 40px'/>
-    <p>Username Here</p>
-    <button id="logout" on:click={openLogoutPressed}>Logout</button>
-    <button id="profile" on:click={openProfilePressed}>Profile</button>
+    <FaUserCircle style='position: absolute; width: 40px; height: 40px; margin-left: 35px; margin-top: 40px;'/>
+    <p style = 'font-size: 20px;'><b>Username Here</b></p>
+    <button id="logout">Logout</button>
+    <button id="profile">Profile</button>
     <div id="navbar-content">
     </div>
 </div>
@@ -36,7 +36,7 @@
         width: 60px;
         height: 25px;
         border-radius: 4px;     
-        background-color: #444444;
+        background-color: #757272;
         border: none;
     }
 
@@ -44,24 +44,27 @@
     #navbar-content {
         display: flex;
         flex-direction: column;
-        width: 100%;
-        margin-top: 100px;
-        margin-left: 30px;
+       
+        margin-top: 25px;
+      
+        
     }
 
     #navbar {
-        position: absolute;
-        width: 300px; 
-        height: 75vh;
+       
+        width: 100%; 
+        height: flex;
         background-color: #EDEDED;
-        border-radius: 8px;
-        margin-left: 50px;
+        margin: 0;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+       
     }
 
     #navbar p {
         position: absolute;
         margin-left: 100px;
         margin-top: 35px;
-        font-family: 'Franklin Gothic Light';
+        margin-bottom: 35px;
+        font-family: 'Century751-Roman';
     }
 </style>

@@ -1,16 +1,26 @@
 <script>
+    // @ts-ignore
     import { goto } from '$app/navigation';
     import AkarIconsEdit from '~icons/akar-icons/edit';
 
     function openCustomisePressed() {
         goto("/customise");
     }
+/**
+     * Function to prevent the button click event from bubbling up to the parent div
+     * and triggering its click event.
+     * @param {Event} event The click event
+     */
+     function stopPropagation(event) {
+        event.stopPropagation();
+    }
+    
 </script>
 
-<div>
-    <button on:click={openCustomisePressed}/>
+<div style='border-radius: 8px; cursor: pointer; position: relative;'>
+    <button on:click={openCustomisePressed} on:click|preventDefault={stopPropagation} />
     <AkarIconsEdit style='position: absolute; margin-top: 20px; margin-left: 25px; width: 30px; height: 30px;'/>
-    <p style='margin-left: 80px; margin-top: 25px;'>Customise</p>
+    <p style='margin-left: 80px; margin-top: 20px; font-size: 24px;'><b>Customise</b></p>
     <p id="plus">+</p>
 </div>
 
@@ -22,14 +32,20 @@
     }
 
     div {
-        width: 450px;
-        height: 250px;
-        border-radius: 10px;
+        border-radius: 8px;
         background-color: #EDEDED;
         cursor: pointer;
         border: none;
-        font-family:'Franklin Gothic Light';
+        font-family:'Century751-Roman';
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        transition: filter 0.7s ease;
     }
+
+    div:hover {
+        filter: brightness(90%);
+    }
+        
+    
 
     p {
         font-size: large;
@@ -38,11 +54,15 @@
 
     div button {
         position: absolute;
-        width: 400px;
-        height: 225px;
-        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
         background-color: transparent;
+        border: none;
         cursor: pointer;
-        border: none;    
+        z-index: 1;
     }
+
+   
 </style>
