@@ -1,6 +1,8 @@
 <script>
     import { goto } from '$app/navigation';
     import FluentWeatherFog48Filled from '~icons/fluent/weather-fog-48-filled';
+    import { GetLocation, UpdateLocation, GetWeather, GetMoon, GetHumidity, GetTemp, GetSunRise, GetSunSet, GetUV, GetWind, GetKind2, GetKind1,GetKind3,GetKind4 } from "$lib/weather"
+
 
     function openWeatherPressed() {
         goto("/weather");
@@ -21,11 +23,11 @@
 <div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; transition: filter 0.7s ease;'>
     <button on:click={openWeatherPressed} on:click|preventDefault={stopPropagation} />
     <FluentWeatherFog48Filled style='position: absolute; margin-top: 20px; margin-left: 25px; width: 30px; height: 30px;'/>
-    <p style='margin-left: 80px; margin-top: 20px; font-size: 24px;'><b>Weather</b></p>
-    <p id="location">Plymouth</p>
-    <p id="temperature">8°c</p>
-    <p id="weather">Windy and Raining</p>
-    <p id="moon">Full Moon</p>
+    <p style='margin-left: 80px; margin-top: 25px;'>Weather</p>
+    <p id="location">{#await GetLocation()} Loading... {:then temp} {temp} {/await}</p>
+    <p id="temperature">{#await GetTemp()} Loading... {:then temp} {temp}°C {/await}</p>
+    <p id="weather">{#await GetWeather()} Loading... {:then temp} {temp} {/await}</p>
+    <p id="moon">{#await GetMoon()} Loading... {:then temp} {temp} {/await}</p>
 </div>
 
 <style>

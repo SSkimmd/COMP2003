@@ -87,7 +87,7 @@ for day in range(1, days_in_month + 1):
 
 		event_template = """BEGIN:VEVENT
 CLASS:PRIVATE
-DESCRIPTION: test
+DESCRIPTION: work
 DTSTAMP:{}
 DTSTART:{}
 DTEND:{}
@@ -96,6 +96,7 @@ SEQUENCE:0
 TRANSP:OPAQUE
 UID:{}
 SUMMARY:test
+LOCATION: ST IVES
 END:VEVENT
 
 """.format(datetime.utcnow().strftime('%Y%m%dT%H%M%SZ'), event_begin.strftime('%Y%m%dT%H%M%SZ'), event_end.strftime('%Y%m%dT%H%M%SZ'), str(uuid.uuid4()))

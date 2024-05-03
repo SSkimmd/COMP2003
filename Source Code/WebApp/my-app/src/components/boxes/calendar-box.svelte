@@ -3,42 +3,100 @@
     import { goto } from '$app/navigation';
     import ClarityCalendarLine from '~icons/clarity/calendar-line';
     import { writable } from 'svelte/store';
-    import { GetEvents, FetchICal } from '$lib/calendar';
-    import { formatTime } from '$lib/util'
-    import { onMount } from "svelte";
 
+    /**
+     * @type {{ start: Date; end: Date; summary: any; location: any; description: any; }[]}
+     */
+    let events = [];
     // @ts-ignore
     const upcomingEvents = writable([]);
 
-    function openCalendarPressed() {
-        goto("/calendar");
+    async function fetchICal() {
+        const url = 'https://corsproxy.io/?' + encodeURIComponent('https://calendar.google.com/calendar/ical/plymgroup28%40gmail.com/private-200aa8ee58a7ff3a5047b75d4392458d/basic.ics');
+        const response = await fetch(url);
+        const data = await response.text();
+        parseICal(data);
     }
 
+    fetchICal();
+
     /**
-    * @param {any[]} events 
-    */
-    async function getNextEvents(events) {
+     * @param {string} data
+     */
+    function parseICal(data) {
+        const lines = data.split('\n');
+        let event = {};
+        for (let line of lines) {
+            // @ts-ignore
+            if (line.startsWith('BEGIN:VEVENT')) { event = {}; }
+            else if (line.startsWith('DTSTART')) {
+                const datePart = line.substring(8, 16);
+                const timePart = line.substring(17, 23);
+                const year = datePart.substring(0, 4);
+                const month = datePart.substring(4, 6);
+                const day = datePart.substring(6, 8);
+                const hours = timePart.substring(0, 2);
+                const mins = timePart.substring(2, 4);
+                // @ts-ignore
+                event.start = new Date(year, month - 1, day, hours, mins);
+            }
+            else if (line.startsWith('DTEND')) {
+                const datePart = line.substring(6, 14);
+                const timePart = line.substring(15, 21);
+                const year = datePart.substring(0, 4);
+                const month = datePart.substring(4, 6);
+                const day = datePart.substring(6, 8);
+                const hours = timePart.substring(0, 2);
+                const mins = timePart.substring(2, 4);
+                // @ts-ignore
+                event.end = new Date(year, month - 1, day, hours, mins);
+            }
+            else if (line.startsWith('SUMMARY')) { event.summary = line.substring(8); }
+            else if (line.startsWith('DESCRIPTION')) { event.description = line.substring(12); }
+            // @ts-ignore
+            else if (line.startsWith('END:VEVENT')) { events.push(event); }
+        }
+        console.log(events)
+        // @ts-ignore
+        upcomingEvents.set(getNextEvents());
+    }
+
+    function getNextEvents() {
         const currentTime = new Date();
+
+        /**
+         * @type {{ start: Date; end: Date; summary: any; location: any; description: any; }[]}
+         */
+        // @ts-ignore
         // @ts-ignore
         const upcomingEvents = [];
 
         events.forEach(event => {
-        const eventStart = event.start;
-        if (eventStart > currentTime) 
-        {
-            upcomingEvents.push(
-            {
-            ...event,
-            start: eventStart
-            });
-        }
+            const eventStart = event.start;
+            if (eventStart > currentTime) {
+                upcomingEvents.push(
+                    {
+                        ...event,
+                        start: eventStart
+                    });
+            }
         });
 
-    // @ts-ignore
-        return upcomingEvents.sort((a, b) => a.start - b.start).slice(0, 3);
+        // @ts-ignore
+        return upcomingEvents.sort((a, b) => a.start - b.start).slice(0, 3); 
     }
 
-
+    /**
+     * @param {{ getHours: () => string; getMinutes: () => string; }} date
+     */
+    function formatTime(date) {
+        const hours = ('0' + date.getHours()).slice(-2);
+        const minutes = ('0' + date.getMinutes()).slice(-2);
+        return `${hours}:${minutes}`;
+    }
+    function openCalendarPressed() {
+        goto("/calendar");
+    }
     onMount(() => {
       // @ts-ignore
       FetchICal().then((data) => {
@@ -57,7 +115,6 @@
      function stopPropagation(event) {
         event.stopPropagation();
     }
-  
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -65,8 +122,7 @@
 <div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; transition: filter 0.7s ease;'>
     <button on:click={openCalendarPressed} on:click|preventDefault={stopPropagation} />
     <ClarityCalendarLine style='position: absolute; margin-top: 15px; margin-left: 20px; width: 24px; height: 24px; '/>
-    <p style='margin-left: 60px; margin-top: 15px; font-family: "Century751-Roman"; font-size: 18px; font-size: 24px;'><b>Calendar</b></p>
-    
+    <p style='margin-left: 60px; margin-top: 15px; font-family: "Century751-Roman"; font-size: 18px; font-size: 24px;'><b>Calendar</b></p>    
     <div id="device-content">
         <ul>
             {#each $upcomingEvents as event}
@@ -80,8 +136,7 @@
             {/each}
         </ul>
     </div>
-    
-</div> 
+</div>
 
 <style>
     #device-content {

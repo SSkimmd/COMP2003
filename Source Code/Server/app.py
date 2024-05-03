@@ -5,6 +5,8 @@ import asyncio
 import socketio
 import python_weather
 import sqlite3
+from datetime import datetime
+
 
 from aiohttp import web
 from threading import Thread
@@ -70,7 +72,7 @@ class SIOThread:
 
         #192.168.0.19
         print("Server Succesfully Started")
-        web.run_app(self.app, host="192.168.0.19", port=5000, print=None, access_log=None)
+        web.run_app(self.app, host="127.0.0.1", port=5000, print=None, access_log=None)
 
     def SIOFunctions(self):
         @self.sio.on('login')
@@ -285,28 +287,203 @@ class SIOThread:
     async def WebGetWeather(self, data):
         response = await data.json()
 
+
         if 'token' not in response:
             return web.Response("No Token In Body", status=400)
 
+
         user = await self.GetAuthenticatedUser(response)
+
 
         if user is None:
             return web.Response(text="User Doesnt Exist", status=400)
 
+
         async with python_weather.Client(unit=python_weather.METRIC) as client:
             weather = await client.get(user.location)
-
             moon_phase = ''
             for forecast in weather.forecasts:
-                moon_phase = forecast.astronomy.moon_phase
+                moon_phase = forecast.astronomy.moon_phase.emoji
+                sunset = forecast.astronomy.sun_set
+                sunrise = forecast.astronomy.sun_rise
                 break
 
+
+            count = 0  
+            x = 0
+            y=0
+           
+            # Get current time
+            current_time = datetime.now()
+
+
+# Extract the hour from the current time
+            current_hour = current_time.hour
+            for forecast in weather.forecasts:
+                for hourly in forecast.hourly:
+                    print (hourly.kind.emoji)
+                    count += 1
+                    if 0 <= current_hour < 3 and (count == 1 or x == 1):
+                        x = 1
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            kind3 = hourly.kind
+                            y+=1
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 3 <= current_hour < 6 and (count == 2 or x == 2):
+                        x = 2
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 6 <= current_hour < 9 and (count == 3 or x == 3):
+                        x = 3
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 9 <= current_hour < 12 and (count == 4 or x == 4):
+                        x = 4
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 12 <= current_hour < 15 and (count == 5 or x == 5):
+                        x = 5
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    elif 15 <= current_hour < 18 and (count == 6 or x == 6):
+                        x = 6
+                        print(current_hour,count,x,y)
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                            print("yup")
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                            print("yup")
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                            print("yup")
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                            print("yup")
+                        else:
+                            y += 1
+                    elif 18 <= current_hour < 21 and (count == 7 or x == 7):
+                        x = 7
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+                        else:
+                            y += 1
+                    else:
+                        if y == 1:
+                            kind1 = hourly.kind
+                            y += 1
+                        elif y == 2:
+                            kind2 = hourly.kind
+                            y += 1
+                        elif y == 3:
+                            y+=1
+                            kind3 = hourly.kind
+                        elif y ==4:
+                            y+=1
+                            kind4 = hourly.kind
+
+
+
+                    #if hour_time <3:
+                    #hourly.kind
+                    #print (hour_time)
+           
+
+
+        #next 2 days Today tomorrow day after
+            #for hourly in forecast.hourly:
+              #  print (hourly)
+            #for forecast in weather.forecasts:
+              #  print(f"For {forecast.date}: {forecast.kind}")
+
+
+            #type = weather.current.kind
+           # print (type)
             return web.json_response(data={
                 "temperature": weather.current.temperature,
-                "kind": str(weather.current.kind),
+                "kind": str(weather.current.kind.emoji),
                 "humidity": weather.current.humidity,
-                "moon_phase": str(moon_phase)
-            })
+                "moon_phase": str(moon_phase),
+                "sunrise": str(sunrise),
+                "sunset": str(sunset),
+                "ultraviolet":str (weather.current.ultraviolet),
+                "wind_speed": round((weather.current.wind_speed / 1.60934)),
+                "kind1":str(kind1.emoji),
+                "kind2":str(kind2.emoji),
+                "kind3":str(kind3.emoji),
+                "kind4":str(kind4.emoji),
         
         
 
