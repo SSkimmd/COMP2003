@@ -301,8 +301,6 @@ class SIOThread:
 
         async with python_weather.Client(unit=python_weather.METRIC) as client:
             weather = await client.get(user.location)
-
-
             moon_phase = ''
             for forecast in weather.forecasts:
                 moon_phase = forecast.astronomy.moon_phase.emoji
@@ -473,11 +471,6 @@ class SIOThread:
 
             #type = weather.current.kind
            # print (type)
-
-
-
-
-
             return web.json_response(data={
                 "temperature": weather.current.temperature,
                 "kind": str(weather.current.kind.emoji),
@@ -491,7 +484,6 @@ class SIOThread:
                 "kind2":str(kind2.emoji),
                 "kind3":str(kind3.emoji),
                 "kind4":str(kind4.emoji),
-            })
         
         
 

@@ -3,7 +3,6 @@ export async function GetDevices() {
     const user = {
         "token": "thiswillberandomsoon"
     };
-  
     const endpoint = "http://127.0.0.1/user";
     const userdata = JSON.stringify(user)
   

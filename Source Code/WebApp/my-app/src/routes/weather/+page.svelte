@@ -79,22 +79,24 @@
       </div>
   </div>
 </div>
-
-
 <style>
   #device-content {
-      margin:25px;
+      margin-left: 25px;
+      margin-top: 25px;
       text-align: center;
+      margin-bottom: 25px;
+      margin-right: 25px;
   }
 
   #device {
       position: absolute;
-      margin-left: 456px;
-      width: 1000px;
-      height: 550px;
+      margin-top: 35px;
+      margin-bottom: 35px;
+      min-width: 50px;
+      width: 99%;
+      height: 80%;
       background-color: #EDEDED;
       border-radius: 8px;
-
       font-family: 'Franklin Gothic Light';
   }
 

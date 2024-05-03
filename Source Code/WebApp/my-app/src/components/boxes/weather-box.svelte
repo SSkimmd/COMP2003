@@ -7,10 +7,21 @@
     function openWeatherPressed() {
         goto("/weather");
     }
+
+    /**
+     * Function to prevent the button click event from bubbling up to the parent div
+     * and triggering its click event.
+     * @param {Event} event The click event
+     */
+     function stopPropagation(event) {
+        event.stopPropagation();
+    }
+
+
 </script>
 
-<div>
-    <button on:click={openWeatherPressed}/>
+<div style='border-radius: 8px; background-color: #EDEDED; cursor: pointer; position: relative; transition: filter 0.7s ease;'>
+    <button on:click={openWeatherPressed} on:click|preventDefault={stopPropagation} />
     <FluentWeatherFog48Filled style='position: absolute; margin-top: 20px; margin-left: 25px; width: 30px; height: 30px;'/>
     <p style='margin-left: 80px; margin-top: 25px;'>Weather</p>
     <p id="location">{#await GetLocation()} Loading... {:then temp} {temp} {/await}</p>
@@ -42,22 +53,32 @@
     }
 
     div {
-        width: 450px;
-        height: 250px;
-        border-radius: 10px;
+       
+        border-radius: 8px;
         background-color: #EDEDED;
         cursor: pointer;
         border: none;
-        font-family:'Franklin Gothic Light';
+        font-family:'Century751-Roman';
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      
+    }
+
+    div:hover {
+        filter: brightness(90%);
     }
 
     div button {
         position: absolute;
-        width: 400px;
-        height: 225px;
-        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
         background-color: transparent;
+        border: none;
         cursor: pointer;
-        border: none;    
+        z-index: 1;
+        
     }
+
+    
 </style>

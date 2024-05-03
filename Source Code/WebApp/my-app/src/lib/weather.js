@@ -3,7 +3,6 @@ export async function GetLocation() {
     const user = {
         "token": "thiswillberandomsoon"
     };
-  
     const endpoint = "http://127.0.0.1:5000/user";
     const userdata = JSON.stringify(user)
   
@@ -27,7 +26,6 @@ export async function UpdateLocation(newLocation) {
         "token": "thiswillberandomsoon",
         "location": newLocation
     };
-  
     const endpoint = "http://127.0.0.1:5000/user";
     const userdata = JSON.stringify(user)
   
@@ -44,7 +42,6 @@ export async function GetWeather() {
     const user = {
         "token": "thiswillberandomsoon"
     };
-  
     const endpoint = "http://127.0.0.1:5000/weather";
     const userdata = JSON.stringify(user)
   
@@ -55,8 +52,6 @@ export async function GetWeather() {
     })
 
     const json = await response.json()
-    
-
     return json['kind']; //kind
 }
 export async function GetMoon() {

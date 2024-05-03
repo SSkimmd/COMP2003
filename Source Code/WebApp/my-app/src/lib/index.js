@@ -18,7 +18,6 @@ export async function Login() {
         "username": "testusername",
         "password": "testpassword"
     };
-
     const endpoint = "http://127.0.0.1:5000/login";
     const userdata = JSON.stringify(user)
   
@@ -42,7 +41,6 @@ export async function Register() {
         "username": "testusername",
         "password": "testpassword"
     };
-  
     const endpoint = "http://127.0.0.1:5000/register";
     const userdata = JSON.stringify(user)
   
