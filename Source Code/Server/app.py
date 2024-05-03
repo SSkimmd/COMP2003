@@ -409,19 +409,15 @@ class SIOThread:
                         if y == 1:
                             kind1 = hourly.kind
                             y += 1
-                            print("yup")
                         elif y == 2:
                             kind2 = hourly.kind
                             y += 1
-                            print("yup")
                         elif y == 3:
                             y+=1
                             kind3 = hourly.kind
-                            print("yup")
                         elif y ==4:
                             y+=1
                             kind4 = hourly.kind
-                            print("yup")
                         else:
                             y += 1
                     elif 18 <= current_hour < 21 and (count == 7 or x == 7):
@@ -483,10 +479,8 @@ class SIOThread:
                 "kind1":str(kind1.emoji),
                 "kind2":str(kind2.emoji),
                 "kind3":str(kind3.emoji),
-                "kind4":str(kind4.emoji),
+                "kind4":str(kind4.emoji)})
         
-        
-
 class DBThread(Thread):
     def __init__(self, sio, user, sid, server_loop):
         super(DBThread, self).__init__(daemon=True)

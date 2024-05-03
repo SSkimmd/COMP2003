@@ -21,18 +21,11 @@
 </div>
 
 <style>
-  
-  
-
     #grid {
         display: grid;
         gap: 1rem;
         padding: 1rem;
         grid-template-columns: repeat(auto-fit, minmax(50px, 919px)); 
-        grid-template-rows: repeat(2, 350px); 
-        
-        
+        grid-template-rows: repeat(2, 350px);     
     }
-
-   
 </style>

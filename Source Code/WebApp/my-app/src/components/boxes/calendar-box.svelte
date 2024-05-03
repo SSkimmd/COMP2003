@@ -3,7 +3,9 @@
     import { goto } from '$app/navigation';
     import ClarityCalendarLine from '~icons/clarity/calendar-line';
     import { writable } from 'svelte/store';
-
+    import { onMount } from 'svelte';
+    import { GetEvents } from '$lib/calendar';
+ 
     /**
      * @type {{ start: Date; end: Date; summary: any; location: any; description: any; }[]}
      */
