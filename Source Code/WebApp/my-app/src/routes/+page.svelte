@@ -60,14 +60,20 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 50vh;
+        width: 25vw;
         height: 40vh;
         background-color: #EDEDED;
         border-radius: 8px;
-        font-family: 'Century751-Roman';
+        font-family: 'Franklin Gothic Light';
+        min-width: fit-content;
+        min-height: fit-content;
+        
     }
     #fieldbox-content{
+        min-height: fit-content;
+        min-width: fit-content;
         text-align: center;
+        text-justify: center;
     }
     #login-heading {
         width: 100%;
